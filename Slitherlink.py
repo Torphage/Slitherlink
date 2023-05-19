@@ -87,12 +87,12 @@ class Cell:
     loop_status: LoopStatus
     ident: int
 
-    def __init__(self, edges, constraint, ident):
+    def __init__(self, edges, ident):
         self.edges = edges
         self.neighbours = []
         self.junctions = []
-        self.constraint = constraint
         self.ident = ident
+        self.constraint = None
         self.loop_status = LoopStatus.UNKNOWN
 
     def setup_variables(self, cells, junctions):
