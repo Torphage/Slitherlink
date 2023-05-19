@@ -1,250 +1,251 @@
 from Slitherlink import Junction, Cell
 
+
 def cells(edges):
     return [
-    Cell([edges[i] for i in [ 0,110,10,120]]        ,0) 
-  , Cell([edges[i] for i in [ 1,111,11,121]]        ,0)
-  , Cell([edges[i] for i in [ 2,112,12,122]]        ,0)
-  , Cell([edges[i] for i in [ 3,113,13,123]]        ,0)
-  , Cell([edges[i] for i in [ 4,114,14,124]]        ,0)
-  , Cell([edges[i] for i in [ 5,115,15,125]]        ,0)
-  , Cell([edges[i] for i in [ 6,116,16,126]]        ,0)
-  , Cell([edges[i] for i in [ 7,117,17,127]]        ,0)
-  , Cell([edges[i] for i in [ 8,118,18,128]]        ,0)
-  , Cell([edges[i] for i in [ 9,119,19,129]]        ,0)
+        Cell([edges[i] for i in [0, 110, 10, 120]], 0, 0),
+        Cell([edges[i] for i in [1, 120, 11, 130]], 0, 1),
+        Cell([edges[i] for i in [2, 130, 12, 140]], 0, 2),
+        Cell([edges[i] for i in [3, 140, 13, 150]], 0, 3),
+        Cell([edges[i] for i in [4, 150, 14, 160]], 0, 4),
+        Cell([edges[i] for i in [5, 160, 15, 170]], 0, 5),
+        Cell([edges[i] for i in [6, 170, 16, 180]], 0, 6),
+        Cell([edges[i] for i in [7, 180, 17, 190]], 0, 7),
+        Cell([edges[i] for i in [8, 190, 18, 200]], 0, 8),
+        Cell([edges[i] for i in [9, 200, 19, 210]], 0, 9),
 
-  , Cell([edges[i] for i in [10,120,20,130]]        ,0) 
-  , Cell([edges[i] for i in [11,121,21,131]]        ,0)
-  , Cell([edges[i] for i in [12,122,22,132]]        ,0)
-  , Cell([edges[i] for i in [13,123,23,133]]        ,0)
-  , Cell([edges[i] for i in [14,124,24,134]]        ,0)
-  , Cell([edges[i] for i in [15,125,25,135]]        ,0)
-  , Cell([edges[i] for i in [16,126,26,136]]        ,0)
-  , Cell([edges[i] for i in [17,127,27,137]]        ,0)
-  , Cell([edges[i] for i in [18,128,28,138]]        ,0)
-  , Cell([edges[i] for i in [19,129,29,139]]        ,0)
+        Cell([edges[i] for i in [10, 111, 20, 121]], 0, 10),
+        Cell([edges[i] for i in [11, 121, 21, 131]], 0, 11),
+        Cell([edges[i] for i in [12, 131, 22, 141]], 0, 12),
+        Cell([edges[i] for i in [13, 141, 23, 151]], 0, 13),
+        Cell([edges[i] for i in [14, 151, 24, 161]], 0, 14),
+        Cell([edges[i] for i in [15, 161, 25, 171]], 0, 15),
+        Cell([edges[i] for i in [16, 171, 26, 181]], 0, 16),
+        Cell([edges[i] for i in [17, 181, 27, 191]], 0, 17),
+        Cell([edges[i] for i in [18, 191, 28, 201]], 0, 18),
+        Cell([edges[i] for i in [19, 201, 29, 211]], 0, 19),
 
-  , Cell([edges[i] for i in [20,130,30,140]]        ,0) 
-  , Cell([edges[i] for i in [21,131,31,141]]        ,0)
-  , Cell([edges[i] for i in [22,132,32,142]]        ,0)
-  , Cell([edges[i] for i in [23,133,33,143]]        ,0)
-  , Cell([edges[i] for i in [24,134,34,144]]        ,0)
-  , Cell([edges[i] for i in [25,135,35,145]]        ,0)
-  , Cell([edges[i] for i in [26,136,36,146]]        ,0)
-  , Cell([edges[i] for i in [27,137,37,147]]        ,0)
-  , Cell([edges[i] for i in [28,138,38,148]]        ,0)
-  , Cell([edges[i] for i in [29,139,39,149]]        ,0)
+        Cell([edges[i] for i in [20, 112, 30, 122]], 0, 20),
+        Cell([edges[i] for i in [21, 122, 31, 132]], 0, 21),
+        Cell([edges[i] for i in [22, 132, 32, 142]], 0, 22),
+        Cell([edges[i] for i in [23, 142, 33, 152]], 0, 23),
+        Cell([edges[i] for i in [24, 152, 34, 162]], 0, 24),
+        Cell([edges[i] for i in [25, 162, 35, 172]], 0, 25),
+        Cell([edges[i] for i in [26, 172, 36, 182]], 0, 26),
+        Cell([edges[i] for i in [27, 182, 37, 192]], 0, 27),
+        Cell([edges[i] for i in [28, 192, 38, 202]], 0, 28),
+        Cell([edges[i] for i in [29, 202, 39, 212]], 0, 29),
 
-  , Cell([edges[i] for i in [30,140,40,150]]        ,0) 
-  , Cell([edges[i] for i in [31,141,41,151]]        ,0)
-  , Cell([edges[i] for i in [32,142,42,152]]        ,0)
-  , Cell([edges[i] for i in [33,143,43,153]]        ,0)
-  , Cell([edges[i] for i in [34,144,44,154]]        ,0)
-  , Cell([edges[i] for i in [35,145,45,155]]        ,0)
-  , Cell([edges[i] for i in [36,146,46,156]]        ,0)
-  , Cell([edges[i] for i in [37,147,47,157]]        ,0)
-  , Cell([edges[i] for i in [38,148,48,158]]        ,0)
-  , Cell([edges[i] for i in [39,149,49,159]]        ,0)
+        Cell([edges[i] for i in [30, 113, 40, 123]], 0, 30),
+        Cell([edges[i] for i in [31, 123, 41, 133]], 0, 31),
+        Cell([edges[i] for i in [32, 133, 42, 143]], 0, 32),
+        Cell([edges[i] for i in [33, 143, 43, 153]], 0, 33),
+        Cell([edges[i] for i in [34, 153, 44, 163]], 0, 34),
+        Cell([edges[i] for i in [35, 163, 45, 173]], 0, 35),
+        Cell([edges[i] for i in [36, 173, 46, 183]], 0, 36),
+        Cell([edges[i] for i in [37, 183, 47, 193]], 0, 37),
+        Cell([edges[i] for i in [38, 193, 48, 203]], 0, 38),
+        Cell([edges[i] for i in [39, 203, 49, 213]], 0, 39),
 
-  , Cell([edges[i] for i in [40,150,50,160]]        ,0) 
-  , Cell([edges[i] for i in [41,151,51,161]]        ,0)
-  , Cell([edges[i] for i in [42,152,52,162]]        ,0)
-  , Cell([edges[i] for i in [43,153,53,163]]        ,0)
-  , Cell([edges[i] for i in [44,154,54,164]]        ,0)
-  , Cell([edges[i] for i in [45,155,55,165]]        ,0)
-  , Cell([edges[i] for i in [46,156,56,166]]        ,0)
-  , Cell([edges[i] for i in [47,157,57,167]]        ,0)
-  , Cell([edges[i] for i in [48,158,58,168]]        ,0)
-  , Cell([edges[i] for i in [49,159,59,169]]        ,0)
+        Cell([edges[i] for i in [40, 114, 50, 124]], 0, 40) ,
+        Cell([edges[i] for i in [41, 124, 51, 134]], 0, 41),
+        Cell([edges[i] for i in [42, 134, 52, 144]], 0, 42),
+        Cell([edges[i] for i in [43, 144, 53, 154]], 0, 43),
+        Cell([edges[i] for i in [44, 154, 54, 164]], 0, 44),
+        Cell([edges[i] for i in [45, 164, 55, 174]], 0, 45),
+        Cell([edges[i] for i in [46, 174, 56, 184]], 0, 46),
+        Cell([edges[i] for i in [47, 184, 57, 194]], 0, 47),
+        Cell([edges[i] for i in [48, 194, 58, 204]], 0, 48),
+        Cell([edges[i] for i in [49, 204, 59, 214]], 0, 49),
 
-  , Cell([edges[i] for i in [50,160,60,170]]        ,0) 
-  , Cell([edges[i] for i in [51,161,61,171]]        ,0)
-  , Cell([edges[i] for i in [52,162,62,172]]        ,0)
-  , Cell([edges[i] for i in [53,163,63,173]]        ,0)
-  , Cell([edges[i] for i in [54,164,64,174]]        ,0)
-  , Cell([edges[i] for i in [55,165,65,175]]        ,0)
-  , Cell([edges[i] for i in [56,166,66,176]]        ,0)
-  , Cell([edges[i] for i in [57,167,67,177]]        ,0)
-  , Cell([edges[i] for i in [58,168,68,178]]        ,0)
-  , Cell([edges[i] for i in [59,169,69,179]]        ,0)
+        Cell([edges[i] for i in [50, 115, 60, 125]], 0, 50),
+        Cell([edges[i] for i in [51, 125, 61, 135]], 0, 51),
+        Cell([edges[i] for i in [52, 135, 62, 145]], 0, 52),
+        Cell([edges[i] for i in [53, 145, 63, 155]], 0, 53),
+        Cell([edges[i] for i in [54, 155, 64, 165]], 0, 54),
+        Cell([edges[i] for i in [55, 165, 65, 175]], 0, 55),
+        Cell([edges[i] for i in [56, 175, 66, 185]], 0, 56),
+        Cell([edges[i] for i in [57, 185, 67, 195]], 0, 57),
+        Cell([edges[i] for i in [58, 195, 68, 205]], 0, 58),
+        Cell([edges[i] for i in [59, 205, 69, 215]], 0, 59),
 
-  , Cell([edges[i] for i in [60,170,70,180]]        ,0) 
-  , Cell([edges[i] for i in [61,171,71,181]]        ,0)
-  , Cell([edges[i] for i in [62,172,72,182]]        ,0)
-  , Cell([edges[i] for i in [63,173,73,183]]        ,0)
-  , Cell([edges[i] for i in [64,174,74,184]]        ,0)
-  , Cell([edges[i] for i in [65,175,75,185]]        ,0)
-  , Cell([edges[i] for i in [66,176,76,186]]        ,0)
-  , Cell([edges[i] for i in [67,177,77,187]]        ,0)
-  , Cell([edges[i] for i in [68,178,78,188]]        ,0)
-  , Cell([edges[i] for i in [69,179,79,189]]        ,0)
+        Cell([edges[i] for i in [60, 116, 70, 126]], 0, 60),
+        Cell([edges[i] for i in [61, 126, 71, 136]], 0, 61),
+        Cell([edges[i] for i in [62, 136, 72, 146]], 0, 62),
+        Cell([edges[i] for i in [63, 146, 73, 156]], 0, 63),
+        Cell([edges[i] for i in [64, 156, 74, 166]], 0, 64),
+        Cell([edges[i] for i in [65, 166, 75, 176]], 0, 65),
+        Cell([edges[i] for i in [66, 176, 76, 186]], 0, 66),
+        Cell([edges[i] for i in [67, 186, 77, 196]], 0, 67),
+        Cell([edges[i] for i in [68, 196, 78, 206]], 0, 68),
+        Cell([edges[i] for i in [69, 206, 79, 216]], 0, 69),
 
-  , Cell([edges[i] for i in [70,180,80,190]]        ,0) 
-  , Cell([edges[i] for i in [71,181,81,191]]        ,0)
-  , Cell([edges[i] for i in [72,182,82,192]]        ,0)
-  , Cell([edges[i] for i in [73,183,83,193]]        ,0)
-  , Cell([edges[i] for i in [74,184,84,194]]        ,0)
-  , Cell([edges[i] for i in [75,185,85,195]]        ,0)
-  , Cell([edges[i] for i in [76,186,86,196]]        ,0)
-  , Cell([edges[i] for i in [77,187,87,197]]        ,0)
-  , Cell([edges[i] for i in [78,188,88,198]]        ,0)
-  , Cell([edges[i] for i in [79,189,89,199]]        ,0) 
-  
-  , Cell([edges[i] for i in [80,190,90,200]]        ,0) 
-  , Cell([edges[i] for i in [81,191,91,201]]        ,0)
-  , Cell([edges[i] for i in [82,192,92,202]]        ,0)
-  , Cell([edges[i] for i in [83,193,93,203]]        ,0)
-  , Cell([edges[i] for i in [84,194,94,204]]        ,0)
-  , Cell([edges[i] for i in [85,195,95,205]]        ,0)
-  , Cell([edges[i] for i in [86,196,96,206]]        ,0)
-  , Cell([edges[i] for i in [87,197,97,207]]        ,0)
-  , Cell([edges[i] for i in [88,198,98,208]]        ,0)
-  , Cell([edges[i] for i in [89,199,99,209]]        ,0)
+        Cell([edges[i] for i in [70, 117, 80, 127]], 0, 70),
+        Cell([edges[i] for i in [71, 127, 81, 137]], 0, 71),
+        Cell([edges[i] for i in [72, 137, 82, 147]], 0, 72),
+        Cell([edges[i] for i in [73, 147, 83, 157]], 0, 73),
+        Cell([edges[i] for i in [74, 157, 84, 167]], 0, 74),
+        Cell([edges[i] for i in [75, 167, 85, 177]], 0, 75),
+        Cell([edges[i] for i in [76, 177, 86, 187]], 0, 76),
+        Cell([edges[i] for i in [77, 187, 87, 197]], 0, 77),
+        Cell([edges[i] for i in [78, 197, 88, 207]], 0, 78),
+        Cell([edges[i] for i in [79, 207, 89, 217]], 0, 79),
 
-  , Cell([edges[i] for i in [90,200,100,210]]        ,0) 
-  , Cell([edges[i] for i in [91,201,101,211]]        ,0)
-  , Cell([edges[i] for i in [92,202,102,212]]        ,0)
-  , Cell([edges[i] for i in [93,203,103,213]]        ,0)
-  , Cell([edges[i] for i in [94,204,104,214]]        ,0)
-  , Cell([edges[i] for i in [95,205,105,215]]        ,0)
-  , Cell([edges[i] for i in [96,206,106,216]]        ,0)
-  , Cell([edges[i] for i in [97,207,107,217]]        ,0)
-  , Cell([edges[i] for i in [98,208,108,218]]        ,0)
-  , Cell([edges[i] for i in [99,209,109,219]]        ,0)
+        Cell([edges[i] for i in [80, 118, 90, 128]], 0, 80),
+        Cell([edges[i] for i in [81, 128, 91, 138]], 0, 81),
+        Cell([edges[i] for i in [82, 138, 92, 148]], 0, 82),
+        Cell([edges[i] for i in [83, 148, 93, 158]], 0, 83),
+        Cell([edges[i] for i in [84, 158, 94, 168]], 0, 84),
+        Cell([edges[i] for i in [85, 168, 95, 178]], 0, 85),
+        Cell([edges[i] for i in [86, 178, 96, 188]], 0, 86),
+        Cell([edges[i] for i in [87, 188, 97, 198]], 0, 87),
+        Cell([edges[i] for i in [88, 198, 98, 208]], 0, 88),
+        Cell([edges[i] for i in [89, 208, 99, 218]], 0, 89),
 
-]
-    
+        Cell([edges[i] for i in [90, 119, 100, 129]], 0, 90),
+        Cell([edges[i] for i in [91, 129, 101, 139]], 0, 91),
+        Cell([edges[i] for i in [92, 139, 102, 149]], 0, 92),
+        Cell([edges[i] for i in [93, 149, 103, 159]], 0, 93),
+        Cell([edges[i] for i in [94, 159, 104, 169]], 0, 94),
+        Cell([edges[i] for i in [95, 169, 105, 179]], 0, 95),
+        Cell([edges[i] for i in [96, 179, 106, 189]], 0, 96),
+        Cell([edges[i] for i in [97, 189, 107, 199]], 0, 97),
+        Cell([edges[i] for i in [98, 199, 108, 209]], 0, 98),
+        Cell([edges[i] for i in [99, 209, 109, 219]], 0, 99)
+    ]
+
+
 def junctions(edges):
-    [
-    Junction([edges[i] for i in [   0,110]])
-  , Junction([edges[i] for i in [0, 1,120]])
-  , Junction([edges[i] for i in [1, 2,130]])
-  , Junction([edges[i] for i in [2, 3,140]])
-  , Junction([edges[i] for i in [3, 4,150]])
-  , Junction([edges[i] for i in [4, 5,160]])
-  , Junction([edges[i] for i in [5, 6,170]])
-  , Junction([edges[i] for i in [6, 7,180]])
-  , Junction([edges[i] for i in [7, 8,190]])
-  , Junction([edges[i] for i in [8, 9,200]])
-  , Junction([edges[i] for i in [  9,210]])
-  
-  , Junction([edges[i] for i in [10,   110,111]])
-  , Junction([edges[i] for i in [10,11,120,121]])
-  , Junction([edges[i] for i in [11,12,130,131]])
-  , Junction([edges[i] for i in [12,13,140,141]])
-  , Junction([edges[i] for i in [13,14,150,151]])
-  , Junction([edges[i] for i in [14,15,160,161]])
-  , Junction([edges[i] for i in [15,16,170,171]])
-  , Junction([edges[i] for i in [16,17,180,181]])
-  , Junction([edges[i] for i in [17,18,190,191]])
-  , Junction([edges[i] for i in [18,19,200,201]])
-  , Junction([edges[i] for i in [19,   210,211]])
-  
-  , Junction([edges[i] for i in [20,   111,112]])
-  , Junction([edges[i] for i in [20,21,121,122]])
-  , Junction([edges[i] for i in [21,22,131,132]])
-  , Junction([edges[i] for i in [22,23,141,142]])
-  , Junction([edges[i] for i in [23,24,151,152]])
-  , Junction([edges[i] for i in [24,25,161,162]])
-  , Junction([edges[i] for i in [25,26,171,172]])
-  , Junction([edges[i] for i in [26,27,181,182]])
-  , Junction([edges[i] for i in [27,28,191,192]])
-  , Junction([edges[i] for i in [28,29,201,202]])
-  , Junction([edges[i] for i in [29,   211,212]])
-  
-  , Junction([edges[i] for i in [30,   112,113]])
-  , Junction([edges[i] for i in [30,31,122,123]])
-  , Junction([edges[i] for i in [31,32,132,133]])
-  , Junction([edges[i] for i in [32,33,142,143]])
-  , Junction([edges[i] for i in [33,34,152,153]])
-  , Junction([edges[i] for i in [34,35,162,163]])
-  , Junction([edges[i] for i in [35,36,172,173]])
-  , Junction([edges[i] for i in [36,37,182,183]])
-  , Junction([edges[i] for i in [37,38,192,193]])
-  , Junction([edges[i] for i in [38,39,202,203]])
-  , Junction([edges[i] for i in [39,   212,213]])
-  
-  , Junction([edges[i] for i in [40,   113,114]])
-  , Junction([edges[i] for i in [40,41,123,124]])
-  , Junction([edges[i] for i in [41,42,133,134]])
-  , Junction([edges[i] for i in [42,43,143,144]])
-  , Junction([edges[i] for i in [43,44,153,154]])
-  , Junction([edges[i] for i in [44,45,163,164]])
-  , Junction([edges[i] for i in [45,46,173,174]])
-  , Junction([edges[i] for i in [46,47,183,184]])
-  , Junction([edges[i] for i in [47,48,193,194]])
-  , Junction([edges[i] for i in [48,49,203,204]])
-  , Junction([edges[i] for i in [49,   213,214]])
-  
-  , Junction([edges[i] for i in [50,   114,115]])
-  , Junction([edges[i] for i in [50,51,124,125]])
-  , Junction([edges[i] for i in [51,52,134,135]])
-  , Junction([edges[i] for i in [52,53,144,145]])
-  , Junction([edges[i] for i in [53,54,154,155]])
-  , Junction([edges[i] for i in [54,55,164,165]])
-  , Junction([edges[i] for i in [55,56,174,175]])
-  , Junction([edges[i] for i in [56,57,184,185]])
-  , Junction([edges[i] for i in [57,58,194,195]])
-  , Junction([edges[i] for i in [58,59,204,205]])
-  , Junction([edges[i] for i in [59,   214,215]])
-  
-  , Junction([edges[i] for i in [60,   115,116]])
-  , Junction([edges[i] for i in [60,61,125,126]])
-  , Junction([edges[i] for i in [61,62,135,136]])
-  , Junction([edges[i] for i in [62,63,145,146]])
-  , Junction([edges[i] for i in [63,64,155,156]])
-  , Junction([edges[i] for i in [64,65,165,166]])
-  , Junction([edges[i] for i in [65,66,175,176]])
-  , Junction([edges[i] for i in [66,67,185,186]])
-  , Junction([edges[i] for i in [67,68,195,196]])
-  , Junction([edges[i] for i in [68,69,205,206]])
-  , Junction([edges[i] for i in [69,   215,216]])
-  
-  , Junction([edges[i] for i in [70,   116,117]])
-  , Junction([edges[i] for i in [70,71,126,127]])
-  , Junction([edges[i] for i in [71,72,136,137]])
-  , Junction([edges[i] for i in [72,73,146,147]])
-  , Junction([edges[i] for i in [73,74,156,157]])
-  , Junction([edges[i] for i in [74,75,166,167]])
-  , Junction([edges[i] for i in [75,76,176,177]])
-  , Junction([edges[i] for i in [76,77,186,187]])
-  , Junction([edges[i] for i in [77,78,196,197]])
-  , Junction([edges[i] for i in [78,79,206,207]])
-  , Junction([edges[i] for i in [79,   216,217]])
-  
-  , Junction([edges[i] for i in [80,   117,118]])
-  , Junction([edges[i] for i in [80,81,127,128]])
-  , Junction([edges[i] for i in [81,82,137,138]])
-  , Junction([edges[i] for i in [82,83,147,148]])
-  , Junction([edges[i] for i in [83,84,157,158]])
-  , Junction([edges[i] for i in [84,85,167,168]])
-  , Junction([edges[i] for i in [85,86,177,178]])
-  , Junction([edges[i] for i in [86,87,187,188]])
-  , Junction([edges[i] for i in [87,88,197,198]])
-  , Junction([edges[i] for i in [88,89,207,208]])
-  , Junction([edges[i] for i in [89,   217,218]])
-  
-  , Junction([edges[i] for i in [90,   118,119]])
-  , Junction([edges[i] for i in [90,91,128,129]])
-  , Junction([edges[i] for i in [91,92,138,139]])
-  , Junction([edges[i] for i in [92,93,148,149]])
-  , Junction([edges[i] for i in [93,94,158,159]])
-  , Junction([edges[i] for i in [94,95,168,169]])
-  , Junction([edges[i] for i in [95,96,178,179]])
-  , Junction([edges[i] for i in [96,97,188,189]])
-  , Junction([edges[i] for i in [97,98,198,199]])
-  , Junction([edges[i] for i in [98,99,208,209]])
-  , Junction([edges[i] for i in [99,   218,219]])
-  
-  , Junction([edges[i] for i in [100,        120]])
-  , Junction([edges[i] for i in [100,101,129,130]])
-  , Junction([edges[i] for i in [101,102,139,140]])
-  , Junction([edges[i] for i in [102,103,149,150]])
-  , Junction([edges[i] for i in [103,104,159,160]])
-  , Junction([edges[i] for i in [104,105,169,170]])
-  , Junction([edges[i] for i in [105,106,179,180]])
-  , Junction([edges[i] for i in [106,107,189,190]])
-  , Junction([edges[i] for i in [107,108,199,200]])
-  , Junction([edges[i] for i in [108,109,209,210]])
-  , Junction([edges[i] for i in [109,        220]])
-]
+    return [
+        Junction([edges[i] for i in [0,    110]], 0),
+        Junction([edges[i] for i in [0, 1, 120]], 1),
+        Junction([edges[i] for i in [1, 2, 130]], 2),
+        Junction([edges[i] for i in [2, 3, 140]], 3),
+        Junction([edges[i] for i in [3, 4, 150]], 4),
+        Junction([edges[i] for i in [4, 5, 160]], 5),
+        Junction([edges[i] for i in [5, 6, 170]], 6),
+        Junction([edges[i] for i in [6, 7, 180]], 7),
+        Junction([edges[i] for i in [7, 8, 190]], 8),
+        Junction([edges[i] for i in [8, 9, 200]], 9),
+        Junction([edges[i] for i in [9,    210]], 10),
+
+        Junction([edges[i] for i in [10,     110, 111]], 11),
+        Junction([edges[i] for i in [10, 11, 120, 121]], 12),
+        Junction([edges[i] for i in [11, 12, 130, 131]], 13),
+        Junction([edges[i] for i in [12, 13, 140, 141]], 14),
+        Junction([edges[i] for i in [13, 14, 150, 151]], 15),
+        Junction([edges[i] for i in [14, 15, 160, 161]], 16),
+        Junction([edges[i] for i in [15, 16, 170, 171]], 17),
+        Junction([edges[i] for i in [16, 17, 180, 181]], 18),
+        Junction([edges[i] for i in [17, 18, 190, 191]], 19),
+        Junction([edges[i] for i in [18, 19, 200, 201]], 20),
+        Junction([edges[i] for i in [19,     210, 211]], 21),
+
+        Junction([edges[i] for i in [20,     111, 112]], 22),
+        Junction([edges[i] for i in [20, 21, 121, 122]], 23),
+        Junction([edges[i] for i in [21, 22, 131, 132]], 24),
+        Junction([edges[i] for i in [22, 23, 141, 142]], 25),
+        Junction([edges[i] for i in [23, 24, 151, 152]], 26),
+        Junction([edges[i] for i in [24, 25, 161, 162]], 27),
+        Junction([edges[i] for i in [25, 26, 171, 172]], 28),
+        Junction([edges[i] for i in [26, 27, 181, 182]], 29),
+        Junction([edges[i] for i in [27, 28, 191, 192]], 30),
+        Junction([edges[i] for i in [28, 29, 201, 202]], 31),
+        Junction([edges[i] for i in [29,     211, 212]], 32),
+
+        Junction([edges[i] for i in [30,     112, 113]], 33),
+        Junction([edges[i] for i in [30, 31, 122, 123]], 34),
+        Junction([edges[i] for i in [31, 32, 132, 133]], 35),
+        Junction([edges[i] for i in [32, 33, 142, 143]], 36),
+        Junction([edges[i] for i in [33, 34, 152, 153]], 37),
+        Junction([edges[i] for i in [34, 35, 162, 163]], 38),
+        Junction([edges[i] for i in [35, 36, 172, 173]], 39),
+        Junction([edges[i] for i in [36, 37, 182, 183]], 40),
+        Junction([edges[i] for i in [37, 38, 192, 193]], 41),
+        Junction([edges[i] for i in [38, 39, 202, 203]], 42),
+        Junction([edges[i] for i in [39,     212, 213]], 43),
+
+        Junction([edges[i] for i in [40,     113, 114]], 44),
+        Junction([edges[i] for i in [40, 41, 123, 124]], 45),
+        Junction([edges[i] for i in [41, 42, 133, 134]], 46),
+        Junction([edges[i] for i in [42, 43, 143, 144]], 47),
+        Junction([edges[i] for i in [43, 44, 153, 154]], 48),
+        Junction([edges[i] for i in [44, 45, 163, 164]], 49),
+        Junction([edges[i] for i in [45, 46, 173, 174]], 50),
+        Junction([edges[i] for i in [46, 47, 183, 184]], 51),
+        Junction([edges[i] for i in [47, 48, 193, 194]], 52),
+        Junction([edges[i] for i in [48, 49, 203, 204]], 53),
+        Junction([edges[i] for i in [49,     213, 214]], 54),
+
+        Junction([edges[i] for i in [50,     114, 115]], 55),
+        Junction([edges[i] for i in [50, 51, 124, 125]], 56),
+        Junction([edges[i] for i in [51, 52, 134, 135]], 57),
+        Junction([edges[i] for i in [52, 53, 144, 145]], 58),
+        Junction([edges[i] for i in [53, 54, 154, 155]], 59),
+        Junction([edges[i] for i in [54, 55, 164, 165]], 60),
+        Junction([edges[i] for i in [55, 56, 174, 175]], 61),
+        Junction([edges[i] for i in [56, 57, 184, 185]], 62),
+        Junction([edges[i] for i in [57, 58, 194, 195]], 63),
+        Junction([edges[i] for i in [58, 59, 204, 205]], 64),
+        Junction([edges[i] for i in [59,     214, 215]], 65),
+
+        Junction([edges[i] for i in [60,     115, 116]], 66),
+        Junction([edges[i] for i in [60, 61, 125, 126]], 67),
+        Junction([edges[i] for i in [61, 62, 135, 136]], 68),
+        Junction([edges[i] for i in [62, 63, 145, 146]], 69),
+        Junction([edges[i] for i in [63, 64, 155, 156]], 70),
+        Junction([edges[i] for i in [64, 65, 165, 166]], 71),
+        Junction([edges[i] for i in [65, 66, 175, 176]], 72),
+        Junction([edges[i] for i in [66, 67, 185, 186]], 73),
+        Junction([edges[i] for i in [67, 68, 195, 196]], 74),
+        Junction([edges[i] for i in [68, 69, 205, 206]], 75),
+        Junction([edges[i] for i in [69,     215, 216]], 76),
+
+        Junction([edges[i] for i in [70,     116, 117]], 77),
+        Junction([edges[i] for i in [70, 71, 126, 127]], 78),
+        Junction([edges[i] for i in [71, 72, 136, 137]], 79),
+        Junction([edges[i] for i in [72, 73, 146, 147]], 80),
+        Junction([edges[i] for i in [73, 74, 156, 157]], 81),
+        Junction([edges[i] for i in [74, 75, 166, 167]], 82),
+        Junction([edges[i] for i in [75, 76, 176, 177]], 83),
+        Junction([edges[i] for i in [76, 77, 186, 187]], 84),
+        Junction([edges[i] for i in [77, 78, 196, 197]], 85),
+        Junction([edges[i] for i in [78, 79, 206, 207]], 86),
+        Junction([edges[i] for i in [79,     216, 217]], 87),
+
+        Junction([edges[i] for i in [80,     117, 118]], 88),
+        Junction([edges[i] for i in [80, 81, 127, 128]], 89),
+        Junction([edges[i] for i in [81, 82, 137, 138]], 90),
+        Junction([edges[i] for i in [82, 83, 147, 148]], 91),
+        Junction([edges[i] for i in [83, 84, 157, 158]], 92),
+        Junction([edges[i] for i in [84, 85, 167, 168]], 93),
+        Junction([edges[i] for i in [85, 86, 177, 178]], 94),
+        Junction([edges[i] for i in [86, 87, 187, 188]], 95),
+        Junction([edges[i] for i in [87, 88, 197, 198]], 96),
+        Junction([edges[i] for i in [88, 89, 207, 208]], 97),
+        Junction([edges[i] for i in [89,     217, 218]], 98),
+
+        Junction([edges[i] for i in [90,     118, 119]], 99),
+        Junction([edges[i] for i in [90, 91, 128, 129]], 100),
+        Junction([edges[i] for i in [91, 92, 138, 139]], 101),
+        Junction([edges[i] for i in [92, 93, 148, 149]], 102),
+        Junction([edges[i] for i in [93, 94, 158, 159]], 103),
+        Junction([edges[i] for i in [94, 95, 168, 169]], 104),
+        Junction([edges[i] for i in [95, 96, 178, 179]], 105),
+        Junction([edges[i] for i in [96, 97, 188, 189]], 106),
+        Junction([edges[i] for i in [97, 98, 198, 199]], 107),
+        Junction([edges[i] for i in [98, 99, 208, 209]], 108),
+        Junction([edges[i] for i in [99,     218, 219]], 109),
+
+        Junction([edges[i] for i in [100,      119]], 110),
+        Junction([edges[i] for i in [100, 101, 129]], 111),
+        Junction([edges[i] for i in [101, 102, 139]], 112),
+        Junction([edges[i] for i in [102, 103, 149]], 113),
+        Junction([edges[i] for i in [103, 104, 159]], 114),
+        Junction([edges[i] for i in [104, 105, 169]], 115),
+        Junction([edges[i] for i in [105, 106, 179]], 116),
+        Junction([edges[i] for i in [106, 107, 189]], 117),
+        Junction([edges[i] for i in [107, 108, 199]], 118),
+        Junction([edges[i] for i in [108, 109, 209]], 119),
+        Junction([edges[i] for i in [109,      219]], 120),
+    ]
