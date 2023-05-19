@@ -118,6 +118,7 @@ class Generate:
     def cell_open(self, cell: Cell) -> bool:
         return self.loop[cell] in [LoopStatus.UNKNOWN, LoopStatus.OUT]
 
+        cells = cell.junction_intersection(next_cell)
 
 class Rectangle(Generate):
     def __init__(self, cells: list[Cell], junctions: list[Junction]):
