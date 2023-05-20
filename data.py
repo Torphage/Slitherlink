@@ -1,6 +1,7 @@
-from Slitherlink import Junction, Cell
+from slitherlink import Junction, Cell
 
 
+# fmt: off
 def cells(edges):
     return [
         Cell([edges[i] for i in [0, 110, 10, 120]], 0),
@@ -249,3 +250,4 @@ def junctions(edges):
         Junction([edges[i] for i in [108, 109, 209]], 119),
         Junction([edges[i] for i in [109,      219]], 120),
     ]
+# fmt: on
