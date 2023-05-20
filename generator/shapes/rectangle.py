@@ -36,17 +36,14 @@ class Rectangle(Generate):
         for j in range(h):
             for i in range(w):
                 index = j * w + i  # index of the cell
-                cells.append(
-                    Cell(
-                        [
-                            edges[index],  # up
-                            edges[index + w],  # down
-                            edges[length + index + j],  # left
-                            edges[length + index + j + 1],  # right
-                        ],
-                        index,
-                    )
-                )
+                connected_indices = [
+                    index,  # up
+                    index + w,  # down
+                    length + index + j,  # left
+                    length + index + j + 1,  # right
+                ]
+                connected_edges = [edges[k] for k in connected_indices]
+                cells.append(Cell(connected_edges, index))
 
         junctions = []
         for j in range(h + 1):
