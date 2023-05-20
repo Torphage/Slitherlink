@@ -1,29 +1,6 @@
 from __future__ import annotations
 from typing import TypedDict
-from enum import Enum
-import random
-import pprint
-
-# from generator import Generate
-
-
-class EdgeStatus(Enum):
-    EMPTY = 1
-    SELECTED = 2
-    MARKED = 4
-
-
-class ConstraintStatus(Enum):
-    LESS = 1
-    EXACT = 2
-    MORE = 4
-
-
-class LoopStatus(Enum):
-    UNKNOWN = 1
-    EXP = 2
-    NOEXP = 4
-    OUT = 8
+from shared.enums import EdgeStatus, ConstraintStatus, LoopStatus
 
 
 class Data(TypedDict):
@@ -33,15 +10,15 @@ class Data(TypedDict):
 
 
 class Edge:
+    ident: int
     status: EdgeStatus
     cells: list[Cell]
     junctions: list[Junction]
     neighbours: list[Edge]
-    ident: int
 
     def __init__(self, ident):
-        self.status = EdgeStatus.EMPTY
         self.ident = ident
+        self.status = EdgeStatus.EMPTY
         self.cells = []
         self.junctions = []
         self.neighbours = []
@@ -79,19 +56,19 @@ class Edge:
 
 
 class Cell:
-    edges: list[Edge]
+    ident: int
     neighbours: list[Cell]
     junctions: list[Junction]
-    constraint: int
+    edges: list[Edge]
+    constraint: int | None
     status: ConstraintStatus | None
     loop_status: LoopStatus
-    ident: int
 
     def __init__(self, edges, ident):
-        self.edges = edges
+        self.ident = ident
         self.neighbours = []
         self.junctions = []
-        self.ident = ident
+        self.edges = edges
         self.constraint = None
         self.loop_status = LoopStatus.UNKNOWN
 
