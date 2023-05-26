@@ -102,6 +102,11 @@ class Cell:
     def update(self):
         self.status = self.get_constraint()
 
+    def connected_cells(self, cell: Cell) -> list[Cell]:
+        res = set(flatten([j.cells for j in cell.junctions]))
+        res = res - set([self, cell] + self.neighbours)
+        return list(res)
+
     def junction_intersection(self, cell: Cell) -> list[Cell]:
         res = []
         for j in list(set(self.junctions) & set(cell.junctions)):
@@ -114,7 +119,7 @@ class Cell:
                         res.append(c)
         return res
 
-    def get_neighbours(self, cells) -> list[Cell]:
+    def get_neighbours(self, cells: list[Cell]) -> list[Cell]:
         res = []
         for edge in self.edges:
             for cell in cells:
@@ -171,7 +176,7 @@ class Junction:
 class Game:
     data: Data
 
-    def __init__(self, cells, junctions, edges):
+    def __init__(self, cells: list[Cell], junctions: list[Junction], edges: list[Edge]):
         self.data = {"cells": cells, "junctions": junctions, "edges": edges}
 
     def set_puzzle(self):
@@ -240,6 +245,10 @@ def sgn(n: int):
         return 0
     else:
         return 1
+
+
+def flatten(lst):
+    return [item for sublist in lst for item in sublist]
 
 
 # def foo(arr)

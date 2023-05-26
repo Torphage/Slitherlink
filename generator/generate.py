@@ -7,6 +7,13 @@ class Generate:
     """
     An abstract class for generating slitherlink puzzles
     """
+    w: int
+    h: int
+    cells: list[Cell]
+    junctions: list[Junction]
+    edges: list[Edge]
+    available: list[Cell]
+    loop: dict[Cell, LoopStatus]
 
     def __init__(
         self,
@@ -29,10 +36,10 @@ class Generate:
         self.cells = cells[:]
         self.junctions = junctions
         self.edges = edges
-        self.available: list[Cell] = []
+        self.available = []
         self.loop = {k: LoopStatus.UNKNOWN for k in dict.fromkeys(cells)}
 
-    def gen_loop(self):
+    def gen_loop(self) -> dict[Cell, LoopStatus]:
         self.available.append(random.choice(self.cells))
 
         while len(self.available) > 0:
@@ -53,11 +60,6 @@ class Generate:
         return self.loop
 
     def add_cell(self, cell: Cell) -> Cell:
-        """Add a cell branching of from an existing cell
-
-        :param cell: The cell we want to branch off from
-        :return: ???
-        """
         # can loop expand from current cell?
         if not self.is_expandable(cell):
             return cell
@@ -88,17 +90,14 @@ class Generate:
 
         return True
 
-    def pick_direction(self, cell: Cell):
+    def pick_direction(self, cell: Cell) -> Cell:
         return random.choice(cell.get_neighbours(self.cells))
 
-    def get_adjacent(self, cell: Cell):
-        res = []
+    def get_adjacent(self, cell: Cell) -> list[bool]:
         neighbours = cell.get_neighbours(self.cells)
-        for neighbour in neighbours:
-            res.append(self.valid_cell(neighbour, cell))
-        return res
+        return [self.valid_cell(n, cell) for n in neighbours]
 
-    def add_available(self, cell):
+    def add_available(self, cell: Cell) -> None:
         for c in self.available:
             if c is cell:
                 return
@@ -109,12 +108,10 @@ class Generate:
 
         valid = valid and self.loop[next_cell] != LoopStatus.NOEXP
         valid = valid and self.loop[next_cell] != LoopStatus.OUT
-        valid = valid and self.loop[next_cell] != LoopStatus.EXP
+        # valid = valid and self.loop[next_cell] != LoopStatus.EXP
 
-        neib = set(self.cells).intersection(
-            flatten([j.cells for j in next_cell.junctions])
-        )
-        neib = neib - set([cell, next_cell]) - set(cell.neighbours)
+        neib = set(flatten([j.cells for j in next_cell.junctions]))
+        neib = neib - set([cell, next_cell] + cell.neighbours)
         neib = list(neib)
 
         for n in neib:
@@ -128,23 +125,27 @@ class Generate:
     def cell_open(self, cell: Cell) -> bool:
         return self.loop[cell] in [LoopStatus.UNKNOWN, LoopStatus.OUT]
 
-    def foo(self, listA):
+    def foo(self, listA: list[object]) -> None:
         for i, item in enumerate(listA):
             if (i + 1) % self.w == 0:
                 if item == 8:
-                    print(".")
+                    print("  ")
                 elif item == 4:
-                    print("#")
+                    print("▓▓")
+                elif item == 2:
+                    print("--")
                 else:
-                    print(item)
+                    print("÷÷")
             else:
                 if item == 8:
-                    print(".", end=" ")
+                    print("  ", end="")
                 elif item == 4:
-                    print("#", end=" ")
+                    print("▓▓", end="")
+                elif item == 2:
+                    print("--", end="")
                 else:
-                    print(item, end=" ")
+                    print("÷÷", end="")
 
 
-def flatten(lst):
+def flatten(lst: list[list]) -> list:
     return [item for sublist in lst for item in sublist]

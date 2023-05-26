@@ -3,7 +3,7 @@ from slitherlink import Edge, Game
 
 
 if __name__ == "__main__":
-    w, h = 40, 40
+    w, h = 10, 10
     gen = shapes.Rectangle.generate(w, h)
     edges = gen.edges
     cells = gen.cells
