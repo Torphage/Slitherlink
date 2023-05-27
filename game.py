@@ -1,13 +1,23 @@
 from __future__ import annotations
 from slitherlink import Cell, Edge, Junction, Data
+from generator.shapes import Rectangle
 from generator.generate import Generate
+from shared.enums import LoopStatus
 
 
 class Game:
     data: Data
+    loop: dict[Cell, LoopStatus]
+    shape: Generate
 
-    def __init__(self, cells: list[Cell], junctions: list[Junction], edges: list[Edge]):
-        self.data = {"cells": cells, "junctions": junctions, "edges": edges}
+    def __init__(self, shape: Generate):
+        self.shape = shape
+        self.data = {
+            "cells": shape.cells,
+            "junctions": shape.junctions,
+            "edges": shape.edges,
+        }
+        self.loop = shape.loop
 
     def set_puzzle(self):
         pass
@@ -47,15 +57,25 @@ class Game:
     def parse(arr: list[str]) -> Game:
         return Game()
 
-    def generate_random(self, shape: str, size: tuple[int, int]) -> Game:
+    def start(self) -> Game:
+        [c.update() for c in self.data["cells"]]
+        [j.update() for j in self.data["junctions"]]
+        self.setup_variables()
+        return self
+
+    @staticmethod
+    def generate_random(shape: str, size: tuple[int, int]) -> Game:
         match shape:
             case "square":
-                Generate.random_square(10)
+                gen = Rectangle.generate(size[0], size[1])
             case "hexagon":
                 pass
             case _:
                 pass
-        return Game()
+
+        game = Game(gen).start()
+        gen.gen_loop()
+        return game
 
     @staticmethod
     def generate_from_file(filename: str) -> Game:

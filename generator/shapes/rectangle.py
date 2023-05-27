@@ -27,6 +27,28 @@ class Rectangle(Generate):
 
         super().__init__(cells, junctions, edges, w, h)
 
+    def print_ascii(self):
+        lst = [val.value for val in self.loop.values()]
+        for i, item in enumerate(lst):
+            if (i + 1) % self.w == 0:
+                if item == 8:
+                    print("  ")
+                elif item == 4:
+                    print("▓▓")
+                elif item == 2:
+                    print("--")
+                else:
+                    print("÷÷")
+            else:
+                if item == 8:
+                    print("  ", end="")
+                elif item == 4:
+                    print("▓▓", end="")
+                elif item == 2:
+                    print("--", end="")
+                else:
+                    print("÷÷", end="")
+
     @classmethod
     def generate(cls, w: int, h: int) -> Self:
         edges = [Edge(i) for i in range(2 * w * h + w + h)]
