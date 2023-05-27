@@ -102,9 +102,9 @@ class Cell:
     def update(self):
         self.status = self.get_constraint()
 
-    def connected_cells(self, cell: Cell) -> list[Cell]:
+    def get_cells_opposite_side(self, cell: Cell) -> list[Cell]:
         res = set(flatten([j.cells for j in cell.junctions]))
-        res = res - set([self, cell] + self.neighbours)
+        res = res - set(flatten([j.cells for j in self.junctions]))
         return list(res)
 
     def junction_intersection(self, cell: Cell) -> list[Cell]:

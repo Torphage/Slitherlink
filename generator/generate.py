@@ -110,11 +110,7 @@ class Generate:
         valid = valid and self.loop[next_cell] != LoopStatus.OUT
         valid = valid and self.loop[next_cell] != LoopStatus.EXP
 
-        neib = set(flatten([j.cells for j in next_cell.junctions]))
-        neib = neib - set(flatten([j.cells for j in cell.junctions]))
-        neib = list(neib)
-
-        for n in neib:
+        for n in cell.get_cells_opposite_side(next_cell):
             valid = valid and self.cell_open(n)
 
         if not valid and self.loop[next_cell] == LoopStatus.UNKNOWN:
