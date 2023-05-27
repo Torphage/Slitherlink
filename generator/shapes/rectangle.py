@@ -49,6 +49,14 @@ class Rectangle(Generate):
                 else:
                     print("÷÷", end="")
 
+    def print_numbers(self):
+        lst = [val.value for val in self.loop.values()]
+        for i, item in enumerate(lst):
+            if (i + 1) % self.w == 0:
+                print(f"{self.cells[i].constraint} ")
+            else:
+                print(f"{self.cells[i].constraint} ", end="")
+
     @classmethod
     def generate(cls, w: int, h: int) -> Self:
         edges = [Edge(i) for i in range(2 * w * h + w + h)]

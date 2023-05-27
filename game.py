@@ -1,23 +1,20 @@
 from __future__ import annotations
-from slitherlink import Cell, Edge, Junction, Data
 from generator.shapes import Rectangle
 from generator.generate import Generate
-from shared.enums import LoopStatus
 
 
 class Game:
-    data: Data
-    loop: dict[Cell, LoopStatus]
     shape: Generate
 
     def __init__(self, shape: Generate):
         self.shape = shape
-        self.data = {
-            "cells": shape.cells,
-            "junctions": shape.junctions,
-            "edges": shape.edges,
-        }
-        self.loop = shape.loop
+
+    def populate_numbers(self):
+        for cell in self.shape.cells:
+            cell.loop_status = self.shape.loop[cell]
+
+        for cell in self.shape.cells:
+            cell.set_contraint()
 
     def set_puzzle(self):
         pass
@@ -28,25 +25,25 @@ class Game:
         return self.solved_cells() and self.valid_junctions()
 
     def solved_cells(self) -> bool:
-        return all([c.is_solved() for c in self.data["cells"]])
+        return all([c.is_solved() for c in self.shape.cells])
 
     def valid_junctions(self) -> bool:
-        return all([j.is_valid() for j in self.data["junctions"]])
+        return all([j.is_valid() for j in self.shape.junctions])
 
     # Update the grid
 
     def setup_variables(self):
-        for edge in self.data["edges"]:
+        for edge in self.shape.edges:
             edge.setup_variables(
-                self.data["cells"], self.data["junctions"], self.data["edges"]
+                self.shape.cells, self.shape.junctions, self.shape.edges
             )
-        for cell in self.data["cells"]:
-            cell.setup_variables(self.data["cells"], self.data["junctions"])
-        for junction in self.data["junctions"]:
-            junction.setup_variables(self.data["cells"])
+        for cell in self.shape.cells:
+            cell.setup_variables(self.shape.cells, self.shape.junctions)
+        for junction in self.shape.junctions:
+            junction.setup_variables(self.shape.cells)
 
     def update(self, index: int):
-        edge = self.data["edges"][index]
+        edge = self.shape.edges[index]
         edge.update()
         for c in edge.cells:
             c.update()
@@ -58,13 +55,13 @@ class Game:
         return Game()
 
     def start(self) -> Game:
-        [c.update() for c in self.data["cells"]]
-        [j.update() for j in self.data["junctions"]]
+        [c.update() for c in self.shape.cells]
+        [j.update() for j in self.shape.junctions]
         self.setup_variables()
         return self
 
     @staticmethod
-    def generate_random(shape: str, size: tuple[int, int]) -> Game:
+    def generate_random_shape(shape: str, size: tuple[int, int]) -> Game:
         match shape:
             case "square":
                 gen = Rectangle.generate(size[0], size[1])

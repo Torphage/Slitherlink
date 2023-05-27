@@ -94,7 +94,13 @@ class Cell:
     def num_selected_edges_at_cell(self) -> int:
         return sum([1 for e in self.edges if e.is_selected()])
 
-    def get_constraint(self) -> ConstraintStatus | None:
+    def set_contraint(self) -> None:
+        self.constraint = 0
+        for cell in self.neighbours:
+            if cell.loop_status != self.loop_status:
+                self.constraint += 1
+
+    def is_constraint(self) -> ConstraintStatus | None:
         if self.constraint is None:
             return None
         match sgn(self.num_selected_edges_at_cell() - self.constraint):
@@ -109,7 +115,7 @@ class Cell:
         return self.status in [None, ConstraintStatus.EXACT]
 
     def update(self):
-        self.status = self.get_constraint()
+        self.status = self.is_constraint()
 
     def get_cells_opposite_side(self, cell: Cell) -> list[Cell]:
         res = set(flatten([j.cells for j in cell.junctions]))
