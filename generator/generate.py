@@ -7,6 +7,7 @@ class Generate:
     """
     An abstract class for generating slitherlink puzzles
     """
+
     w: int
     h: int
     cells: list[Cell]
@@ -121,7 +122,7 @@ class Generate:
     def cell_open(self, cell: Cell) -> bool:
         return self.loop[cell] in [LoopStatus.UNKNOWN, LoopStatus.OUT]
 
-    def foo(self, listA: list[object]) -> None:
+    def foo(self, listA: list) -> None:
         for i, item in enumerate(listA):
             if (i + 1) % self.w == 0:
                 if item == 8:

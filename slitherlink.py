@@ -74,13 +74,22 @@ class Cell:
 
     def setup_variables(self, cells, junctions):
         for cell in cells:
+            if cell is self:
+                continue
+            if cell in self.neighbours:
+                continue
             for edge in cell.edges:
-                if edge in self.edges and cell not in self.neighbours:
+                if edge in self.edges:
                     self.neighbours.append(cell)
+                    break
+
         for junction in junctions:
+            if junction in self.junctions:
+                continue
             for edge in junction.edges:
-                if edge in self.edges and junction not in self.junctions:
+                if edge in self.edges:
                     self.junctions.append(junction)
+                    break
 
     def num_selected_edges_at_cell(self) -> int:
         return sum([1 for e in self.edges if e.is_selected()])
@@ -110,7 +119,7 @@ class Cell:
     def junction_intersection(self, cell: Cell) -> list[Cell]:
         res = []
         for j in list(set(self.junctions) & set(cell.junctions)):
-            j.get_ordered_cells()
+            j.get_surrounding_cells()
             for c in j.cells:
                 if c is self or c is cell:
                     continue
@@ -149,7 +158,11 @@ class Junction:
                 if edge in self.edges and cell not in self.cells:
                     self.cells.append(cell)
 
-    def get_ordered_cells(self) -> list[Cell]:
+    def get_surrounding_cells(self) -> list[Cell]:
+        """Get the surrounding cells in traversable order.
+
+        :return: A list of cells that surround the junction, in order.
+        """
         res = self.cells[:1]
         temp = self.cells[1:]
         i = 0
