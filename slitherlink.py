@@ -116,6 +116,15 @@ class Cell:
         res = res - set(flatten([j.cells for j in self.junctions]))
         return list(res)
 
+    def _get_surrounding_cells_in_order(self) -> list[Cell]:
+        """Get the surrounding cells in order,
+        such that you can traverse every cell by going through their neighbours.
+
+        :return: list of cells
+        """
+        cs = [j._get_surrounding_cells_with_start(self) for j in self.junctions]
+        return sort_items(cs)
+
     def junction_intersection(self, cell: Cell) -> list[Cell]:
         res = []
         for j in list(set(self.junctions) & set(cell.junctions)):
@@ -175,6 +184,10 @@ class Junction:
                 i += 1
 
         return res
+
+    def _get_surrounding_cells_with_start(self, cell: Cell) -> list[Cell]:
+        cells = self.get_surrounding_cells()
+        return shift_and_remove(cells, cell)
 
     def is_valid(self) -> bool:
         return Edge.num_selected_edges(self.edges) in [0, 2]
@@ -262,6 +275,66 @@ def sgn(n: int):
 
 def flatten(lst):
     return [item for sublist in lst for item in sublist]
+
+
+def split(arr, items):
+    res = []
+    temp = []
+    trash = []
+    for el in arr:
+        if el not in items:
+            temp.append(el)
+        else:
+            res.append(temp)
+            temp = []
+            trash.append(el)
+
+    # if len(res) < 2:
+    #     return res
+    if res[-1] == []:
+        res = res[:-1]
+    if arr[0] in trash and arr[-1] in trash:
+        tmp = res[:-1]
+        for el in res[-1]:
+            tmp[0].append(el)
+    else:
+        tmp = res
+
+    return tmp
+
+
+def sort_items(lst: list[list]) -> list[list]:
+    lst = [ele for ele in lst if ele != []]
+    length = len(lst)
+    val = max([len(sub) for sub in lst])
+    arr = [sub for sub in lst if len(sub) < val]
+    if len(arr) == 0:
+        res = [lst[0]]
+    else:
+        res = [arr[0]]
+    i = 0
+    while len(res) < length:
+        if i >= len(lst):
+            res[-1].reverse()
+            i = 0
+        if lst[i] in res:
+            i += 1
+        elif res[-1][-1] in lst[i]:
+            res.append(lst[i])
+            i = 0
+        else:
+            i += 1
+    return res
+
+
+# https://stackoverflow.com/questions/30399534/shift-elements-in-a-list-by-n-indices
+def shift(seq: list, n=0) -> list:
+    a = n % len(seq)
+    return seq[-a:] + seq[:-a]
+
+
+def shift_and_remove(lst: list, val) -> list:
+    return shift(lst, -lst.index(val))[1:]
 
 
 # def foo(arr)

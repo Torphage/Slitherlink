@@ -119,6 +119,21 @@ class Generate:
 
         return valid
 
+    def _valid_neighbours(self, cell: Cell, neighbours: list[Cell]) -> bool:
+        flat_neighbours = list(dict.fromkeys(flatten(neighbours)))
+        #  = [item for sublist in neighbours for item in sublist[1:]]
+        # temp = self.loop[cell]
+        # self.loop[cell] = LoopStatus.EXP
+        filled_in = []
+        for n in flat_neighbours:
+            if n is cell:
+                filled_in.append(False)
+            else:
+                filled_in.append(self.cell_open(n))
+        # filled_in = [self.cell_open(n) for n in flat_neighbours]
+        # self.loop[cell] = temp
+        return len(split(filled_in)) < 2
+
     def cell_open(self, cell: Cell) -> bool:
         return self.loop[cell] in [LoopStatus.UNKNOWN, LoopStatus.OUT]
 
@@ -146,3 +161,17 @@ class Generate:
 
 def flatten(lst: list[list]) -> list:
     return [item for sublist in lst for item in sublist]
+
+
+def split(lst: list) -> list:
+    res = []
+    temp = []
+    for elem in lst:
+        if elem:
+            temp.append(elem)
+        elif temp:
+            res.append(temp)
+            temp = []
+    if temp and not lst[0]:
+        res.append(temp)
+    return res
