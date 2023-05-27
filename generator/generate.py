@@ -108,10 +108,10 @@ class Generate:
 
         valid = valid and self.loop[next_cell] != LoopStatus.NOEXP
         valid = valid and self.loop[next_cell] != LoopStatus.OUT
-        # valid = valid and self.loop[next_cell] != LoopStatus.EXP
+        valid = valid and self.loop[next_cell] != LoopStatus.EXP
 
         neib = set(flatten([j.cells for j in next_cell.junctions]))
-        neib = neib - set([cell, next_cell] + cell.neighbours)
+        neib = neib - set(flatten([j.cells for j in cell.junctions]))
         neib = list(neib)
 
         for n in neib:
