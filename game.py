@@ -38,9 +38,9 @@ class Game:
                 self.shape.cells, self.shape.junctions, self.shape.edges
             )
         for cell in self.shape.cells:
-            cell.setup_variables(self.shape.cells, self.shape.junctions)
+            cell.setup_variables()
         for junction in self.shape.junctions:
-            junction.setup_variables(self.shape.cells)
+            junction.setup_variables()
 
     def update(self, index: int):
         edge = self.shape.edges[index]

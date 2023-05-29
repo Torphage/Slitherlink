@@ -72,24 +72,20 @@ class Cell:
         self.constraint = None
         self.loop_status = LoopStatus.UNKNOWN
 
-    def setup_variables(self, cells, junctions):
-        for cell in cells:
-            if cell is self:
-                continue
+    def setup_variables(self):
+        for edge in self.edges:
+            for cell in edge.cells:
+                if cell is self:
+                    continue
             if cell in self.neighbours:
                 continue
             for edge in cell.edges:
                 if edge in self.edges:
-                    self.neighbours.append(cell)
-                    break
+                self.neighbours.append(cell)
+                break
 
-        for junction in junctions:
-            if junction in self.junctions:
-                continue
-            for edge in junction.edges:
-                if edge in self.edges:
-                    self.junctions.append(junction)
-                    break
+            for junction in edge.junctions:
+                self.junctions.add(junction)
 
     def num_selected_edges_at_cell(self) -> int:
         return sum([1 for e in self.edges if e.is_selected()])
@@ -167,10 +163,10 @@ class Junction:
         self.ident = ident
         self.cells = []
 
-    def setup_variables(self, cells):
-        for cell in cells:
-            for edge in cell.edges:
-                if edge in self.edges and cell not in self.cells:
+    def setup_variables(self):
+        for edge in self.edges:
+            for cell in edge.cells:
+                if cell not in self.cells:
                     self.cells.append(cell)
 
     def get_surrounding_cells(self) -> list[Cell]:
