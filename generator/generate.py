@@ -1,9 +1,10 @@
 from slitherlink import Cell, Junction, Edge
 import random
 from shared.enums import LoopStatus
+from abc import ABC
 
 
-class Generate:
+class Generate(ABC):
     """
     An abstract class for generating slitherlink puzzles
     """
@@ -40,8 +41,11 @@ class Generate:
         self.available = []
         self.loop = {k: LoopStatus.UNKNOWN for k in dict.fromkeys(cells)}
 
+    def pick_first_cell(self) -> Cell:
+        return random.choice(self.cells)
+
     def gen_loop(self) -> dict[Cell, LoopStatus]:
-        self.available.append(random.choice(self.cells))
+        self.available.append(self.pick_first_cell())
 
         while len(self.available) > 0:
             cell = random.choice(self.available)

@@ -27,6 +27,9 @@ class Rectangle(Generate):
 
         super().__init__(cells, junctions, edges, w, h)
 
+    def pick_first_cell(self) -> Cell:
+        return self.cells[0]
+
     def print_ascii(self):
         lst = [val.value for val in self.loop.values()]
         for i, item in enumerate(lst):
@@ -59,8 +62,8 @@ class Rectangle(Generate):
 
     @classmethod
     def generate(cls, w: int, h: int) -> Self:
-        edges = [Edge(i) for i in range(2 * w * h + w + h)]
         length = w * h + w
+        edges = [Edge(i) for i in range(2 * length + h)]
 
         cells = []
         for j in range(h):

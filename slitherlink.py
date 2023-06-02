@@ -48,7 +48,10 @@ class Edge:
 
     @staticmethod
     def are_neighbours(e1: Edge, e2: Edge) -> bool:
-        return len(set(e1.junctions).intersection(e2.junctions)) > 0
+        for j in e1.junctions:
+            if j in e2.junctions:
+                return True
+        return False
 
     @staticmethod
     def num_selected_edges(arr: list[Edge]) -> int:
@@ -77,21 +80,20 @@ class Cell:
             for cell in edge.cells:
                 if cell is self:
                     continue
-            if cell in self.neighbours:
-                continue
-            for edge in cell.edges:
-                if edge in self.edges:
                 self.neighbours.append(cell)
                 break
 
             for junction in edge.junctions:
-                self.junctions.add(junction)
+                self.junctions.append(junction)
 
     def num_selected_edges_at_cell(self) -> int:
         return sum([1 for e in self.edges if e.is_selected()])
 
     def set_contraint(self) -> None:
-        self.constraint = 0
+        if self.loop_status == LoopStatus.OUT:
+            self.constraint = 0
+        else:
+            self.constraint = len(self.edges) - len(self.neighbours)
         for cell in self.neighbours:
             if cell.loop_status != self.loop_status:
                 self.constraint += 1
@@ -115,8 +117,7 @@ class Cell:
 
     def get_cells_opposite_side(self, cell: Cell) -> list[Cell]:
         res = set(flatten([j.cells for j in cell.junctions]))
-        res = res - set(flatten([j.cells for j in self.junctions]))
-        return list(res)
+        return res - set(flatten([j.cells for j in self.junctions]))
 
     def _get_surrounding_cells_in_order(self) -> list[Cell]:
         """Get the surrounding cells in order,
