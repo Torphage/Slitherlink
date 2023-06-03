@@ -1,6 +1,9 @@
 from slitherlink import Cell, Edge, Junction
 from generator.generate import Generate
 from typing import Self
+import random
+import scipy
+import numpy as np
 
 
 class Rectangle(Generate):
@@ -28,7 +31,10 @@ class Rectangle(Generate):
         super().__init__(cells, junctions, edges, w, h)
 
     def pick_first_cell(self) -> Cell:
-        return self.cells[0]
+        xs = scipy.stats.norm.pdf(np.linspace(-3, 3, self.w))
+        ys = scipy.stats.norm.pdf(np.linspace(-3, 3, self.h))
+        probabilities = [y * x for y in ys for x in xs]
+        return random.choices(self.cells, weights=probabilities, k=1)[0]
 
     def print_ascii(self):
         lst = [val.value for val in self.loop.values()]
