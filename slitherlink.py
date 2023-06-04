@@ -43,8 +43,28 @@ class Edge:
     def is_selected(self):
         return self.status == EdgeStatus.SELECTED
 
+    def should_be_selected(self):
+        if len(self.cells) == 1:
+            return self.cells[0].loop_status == LoopStatus.NOEXP
+        return self.cells[0].loop_status != self.cells[1].loop_status
+
     def are_neighbour(self, other: Edge) -> bool:
         return Edge.are_neighbours(self, other)
+
+    @staticmethod
+    def sort(edges: list[Edge]) -> list[Edge]:
+        res = edges[:1]
+        temp = edges[1:]
+        i = 0
+        while len(temp) > 0:
+            if res[-1] in temp[i].neighbours:
+                res.append(temp[i])
+                temp.remove(temp[i])
+                i = 0
+            else:
+                i += 1
+
+        return res
 
     @staticmethod
     def are_neighbours(e1: Edge, e2: Edge) -> bool:
