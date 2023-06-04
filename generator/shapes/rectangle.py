@@ -77,9 +77,9 @@ class Rectangle(Generate):
                 index = j * w + i  # index of the cell
                 connected_indices = [
                     index,  # up
+                    length + index + j + 1,  # right
                     index + w,  # down
                     length + index + j,  # left
-                    length + index + j + 1,  # right
                 ]
                 connected_edges = [edges[k] for k in connected_indices]
                 cells.append(Cell(connected_edges, index))
@@ -91,12 +91,12 @@ class Rectangle(Generate):
                 connected_indices = []
                 if j != 0:  # up
                     connected_indices.append(length + index - w - 1)
+                if i != w:  # right
+                    connected_indices.append(index - j)
                 if j != h:  # down
                     connected_indices.append(length + index)
                 if i != 0:  # left
                     connected_indices.append(index - j - 1)
-                if i != w:  # right
-                    connected_indices.append(index - j)
 
                 connected_edges = [edges[k] for k in connected_indices]
                 junctions.append(Junction(connected_edges, index))
