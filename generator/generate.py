@@ -1,7 +1,8 @@
 from slitherlink import Cell, Junction, Edge
+from typing import Self
 import random
 from shared.enums import LoopStatus
-from abc import ABC
+from abc import ABC, abstractmethod, abstractclassmethod
 
 
 class Generate(ABC):
@@ -41,8 +42,21 @@ class Generate(ABC):
         self.available = []
         self.loop = {k: LoopStatus.UNKNOWN for k in dict.fromkeys(cells)}
 
+    @abstractmethod
     def pick_first_cell(self) -> Cell:
         return random.choice(self.cells)
+
+    @abstractmethod
+    def print_ascii(self):
+        return NotImplemented
+
+    @abstractmethod
+    def print_numbers(self):
+        return NotImplemented
+
+    @classmethod
+    def Generate(cls, w: int, h: int):
+        return NotImplemented
 
     def gen_loop(self) -> dict[Cell, LoopStatus]:
         self.available.append(self.pick_first_cell())
