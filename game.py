@@ -72,10 +72,6 @@ class Game:
                 app = RectangleApp(self, dim)
         app.run()
 
-    @staticmethod
-    def parse(arr: list[str]) -> Game:
-        return Game()
-
     def start(self) -> Game:
         self.setup_variables()
         return self
@@ -101,10 +97,3 @@ class Game:
         gen.gen_loop()
         print(f"Shape generation took {round(time.perf_counter() - SETUP,3)}s")
         return game
-
-    @staticmethod
-    def generate_from_file(filename: str) -> Game:
-        lines = []
-        with open(filename) as file:
-            lines = file.readlines()
-        return Game.parse(lines)

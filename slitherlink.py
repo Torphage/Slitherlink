@@ -137,16 +137,8 @@ class Cell:
 
     def get_cells_opposite_side(self, cell: Cell) -> list[Cell]:
         res = set(flatten([j.cells for j in cell.junctions]))
-        return res - set(flatten([j.cells for j in self.junctions]))
-
-    def _get_surrounding_cells_in_order(self) -> list[Cell]:
-        """Get the surrounding cells in order,
-        such that you can traverse every cell by going through their neighbours.
-
-        :return: list of cells
-        """
-        cs = [j._get_surrounding_cells_with_start(self) for j in self.junctions]
-        return sort_items(cs)
+        res = res - set(flatten([j.cells for j in self.junctions]))
+        return list(res)
 
     def junction_intersection(self, cell: Cell) -> list[Cell]:
         res = []
