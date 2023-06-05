@@ -33,21 +33,30 @@ class RectangleApp(App):
             "x": self.window_size[0] / w,
             "y": self.window_size[1] / h,
         }
-        self.num_offset = {"x": 17, "y": 4}
+        # self.num_offset = {"x": 17, "y": 4}
+
+    def num_offset(self, text):
+        w, h = self.font.size(text)
+        return (
+            (self.cell_size["x"] - w) / 2,
+            (self.cell_size["y"] - h) / 2,
+        )
 
     def draw_cells(self):
         for i in range(self.w):
             for j in range(self.h):
-                if self.cell_grid[i][j].constraint is not None:
+                con = self.cell_grid[i][j].constraint
+                if con is not None:
+                    offset = self.num_offset(str(con))
                     text = self.font.render(
-                        str(self.cell_grid[i][j].constraint), True, (0, 0, 0)
+                        str(con), True, (0, 0, 0)
                     )
                     self.screen.blit(
                         text,
                         self.add_padding(
                             (
-                                i * self.cell_size["x"] + self.num_offset["x"],
-                                j * self.cell_size["y"] + self.num_offset["y"],
+                                i * self.cell_size["x"] + offset[0],
+                                j * self.cell_size["y"] + offset[1],
                             )
                         ),
                     )
