@@ -38,9 +38,12 @@ class App(ABC):
 
     def start(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.window_size)
+        self.screen = pygame.display.set_mode(self.add_padding(self.add_padding(self.window_size)))
         self.font = pygame.font.SysFont("helvetica", 40)
         self.setup_variables()
+
+    def add_padding(self, padding: tuple):
+        return (padding[0] + self.padding[0], padding[1] + self.padding[1])
 
     @abstractmethod
     def get_cord(self, pos):

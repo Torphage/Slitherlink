@@ -44,9 +44,11 @@ class RectangleApp(App):
                     )
                     self.screen.blit(
                         text,
-                        (
-                            i * self.cell_size["x"] + self.num_offset["x"],
-                            j * self.cell_size["y"] + self.num_offset["y"],
+                        self.add_padding(
+                            (
+                                i * self.cell_size["x"] + self.num_offset["x"],
+                                j * self.cell_size["y"] + self.num_offset["y"],
+                            )
                         ),
                     )
 
@@ -114,6 +116,8 @@ class RectangleApp(App):
         if edge.status == EdgeStatus.MARKED:
             edge_surface.fill((225, 225, 225))
 
-        button = self.screen.blit(hitbox, button_coord)
-        self.screen.blit(edge_surface, (x_offset - thick / 2, y_offset - thick / 2))
+        button = self.screen.blit(hitbox, self.add_padding(button_coord))
+        self.screen.blit(
+            edge_surface, self.add_padding((x_offset - thick / 2, y_offset - thick / 2))
+        )
         return button
