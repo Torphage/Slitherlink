@@ -42,7 +42,9 @@ class Game:
             edge.setup_variables(
                 self.shape.cells, self.shape.junctions, self.shape.edges
             )
-        print(f"Edges took the following amount to setup {round(time.perf_counter() - t,3)}s")
+        print(
+            f"Edges took the following amount to setup {round(time.perf_counter() - t,3)}s"
+        )
         for cell in self.shape.cells:
             cell.setup_variables()
         for junction in self.shape.junctions:

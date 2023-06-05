@@ -48,9 +48,7 @@ class RectangleApp(App):
                 con = self.cell_grid[i][j].constraint
                 if con is not None:
                     offset = self.num_offset(str(con))
-                    text = self.font.render(
-                        str(con), True, (0, 0, 0)
-                    )
+                    text = self.font.render(str(con), True, (0, 0, 0))
                     self.screen.blit(
                         text,
                         self.add_padding(

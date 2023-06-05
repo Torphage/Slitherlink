@@ -1,8 +1,7 @@
 from slitherlink import Cell, Junction, Edge
-from typing import Self
 import random
 from shared.enums import LoopStatus
-from abc import ABC, abstractmethod, abstractclassmethod
+from abc import ABC, abstractmethod
 
 
 class Generate(ABC):

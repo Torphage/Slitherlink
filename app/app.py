@@ -38,7 +38,9 @@ class App(ABC):
 
     def start(self):
         pygame.init()
-        self.screen = pygame.display.set_mode(self.add_padding(self.add_padding(self.window_size)))
+        self.screen = pygame.display.set_mode(
+            self.add_padding(self.add_padding(self.window_size))
+        )
         self.font = pygame.font.SysFont("helvetica", 40)
         self.setup_variables()
 

@@ -221,6 +221,7 @@ class Junction:
     def print_edge(self):
         print(self.edges)
 
+
 # pprint.pprint(list(chunks(Generate.random_square(1),10)))
 
 
