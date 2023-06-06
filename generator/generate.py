@@ -9,8 +9,7 @@ class Generate(ABC):
     An abstract class for generating slitherlink puzzles
     """
 
-    w: int
-    h: int
+    size: int | tuple[int, int]
     cells: list[Cell]
     junctions: list[Junction]
     edges: list[Edge]
@@ -22,8 +21,7 @@ class Generate(ABC):
         cells: list[Cell],
         junctions: list[Junction],
         edges: list[Edge],
-        w: int,
-        h: int,
+        size: int | tuple[int, int]
     ):
         """_summary_
 
@@ -33,8 +31,7 @@ class Generate(ABC):
         :type junctions: list[Junction]
         """
 
-        self.w = w
-        self.h = h
+        self.size = size
         self.cells = cells[:]
         self.junctions = junctions
         self.edges = edges
@@ -54,7 +51,7 @@ class Generate(ABC):
         return NotImplemented
 
     @classmethod
-    def Generate(cls, w: int, h: int):
+    def generate(cls, size: int | tuple[int, int]):
         return NotImplemented
 
     def gen_loop(self) -> dict[Cell, LoopStatus]:

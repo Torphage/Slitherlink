@@ -28,7 +28,9 @@ class Rectangle(Generate):
         :param junctions: _description_
         """
 
-        super().__init__(cells, junctions, edges, w, h)
+        super().__init__(cells, junctions, edges, (w, h))
+        self.w = w
+        self.h = h
 
     def pick_first_cell(self) -> Cell:
         xs = scipy.stats.norm.pdf(np.linspace(-3, 3, self.w))
@@ -67,7 +69,8 @@ class Rectangle(Generate):
                 print(f"{self.cells[i].constraint} ", end="")
 
     @classmethod
-    def generate(cls, w: int, h: int) -> Self:
+    def generate(cls, size: tuple[int, int]) -> Self:
+        w, h = size
         length = w * h + w
         edges = [Edge(i) for i in range(2 * length + h)]
 

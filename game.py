@@ -1,14 +1,14 @@
 from __future__ import annotations
-from generator.shapes import Rectangle
+from generator.shapes import Rectangle, Hexagon
 from generator.generate import Generate
-from app.shapes import RectangleApp
+from app.shapes import RectangleApp, HexagonApp
 import time
 
 
 class Game:
     shape: Generate
 
-    def __init__(self, shape: Generate, size: tuple[int, int]):
+    def __init__(self, shape: Generate, size: int | tuple[int, int]):
         self.shape = shape
         self.size = size
 
@@ -67,6 +67,8 @@ class Game:
         match self.shape.__class__.__name__:
             case "Rectangle":
                 app = RectangleApp(self, dim)
+            case "Hexagon":
+                app = HexagonApp(self, dim)
             case _:
                 print("Shape not implemented. Defaulting to rectangle")
                 app = RectangleApp(self, dim)
@@ -77,16 +79,18 @@ class Game:
         return self
 
     @staticmethod
-    def generate_random_shape(shape: str, size: tuple[int, int]) -> Game:
+    def generate_random_shape(shape: str, size1: int = 0, size2: tuple[int, int] = (0, 0)) -> Game:
         match shape:
             case "square":
-                gen = Rectangle.generate(size[0], size[1])
+                size = size2
+                gen = Rectangle.generate(size)
             case "hexagon":
-                print("Shape not implemented yet. Defaulting to rectangle")
-                gen = Rectangle.generate(size[0], size[1])
+                size = size1
+                gen = Hexagon.generate(size)
             case _:
                 print("Shape not implemented. Defaulting to rectangle")
-                gen = Rectangle.generate(size[0], size[1])
+                size = size2
+                gen = Rectangle.generate(size)
 
         START = time.perf_counter()
         game = Game(gen, size).start()

@@ -1,3 +1,4 @@
 from .rectangle_app import RectangleApp
+from .hexagon_app import HexagonApp
 
-__all__ = ["RectangleApp"]
+__all__ = ["HexagonApp", "RectangleApp"]
