@@ -20,9 +20,10 @@ class App(ABC):
                     self.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     pos = pygame.mouse.get_pos()
-                    for button, edge in self.buttons_edges:
-                        if button.collidepoint(pos):
-                            self.game.update(edge)
+                    for surface, edge in self.buttons_edges:
+                        if surface.hitbox_button.collidepoint(pos):
+                            if surface.check_collision(pos):
+                                self.game.update(edge)
             # TODO Fix below
             # * the line below is needed when using draw_solution
             # * since the cells only update around the edge that
@@ -46,10 +47,6 @@ class App(ABC):
 
     def add_padding(self, padding: tuple):
         return (padding[0] + self.padding[0], padding[1] + self.padding[1])
-
-    @abstractmethod
-    def get_cord(self, pos):
-        return NotImplemented
 
     @abstractmethod
     def setup_variables(self):

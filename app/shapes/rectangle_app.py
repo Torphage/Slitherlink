@@ -1,16 +1,13 @@
 import pygame
 from app.app import App
-from shared.enums import EdgeStatus
+from app.edge_surface import EdgeSurface
 
 
 class RectangleApp(App):
+    size: tuple[int, int]
+
     def __init__(self, game, window_size):
         super().__init__(game, window_size)
-
-    def get_cord(self, pos):
-        x = pos[0] // (self.window_size / self.w)
-        y = pos[1] // (self.window_size / self.h)
-        return (x, y)
 
     def setup_variables(self):
         w, h = self.w, self.h = self.size[0], self.size[1]
@@ -33,6 +30,12 @@ class RectangleApp(App):
             "x": self.window_size[0] / w,
             "y": self.window_size[1] / h,
         }
+
+        # # * modifiable values
+        # self.line_properties = {
+
+        # }
+
         # self.num_offset = {"x": 17, "y": 4}
 
     def num_offset(self, text):
@@ -70,7 +73,7 @@ class RectangleApp(App):
             for j in range(self.h):
                 edge = self.vertical_edges[j][i]
                 button = self.draw_edge(
-                    True,
+                    90,
                     edge,
                     i * self.cell_size["x"],
                     j * self.cell_size["y"],
@@ -82,7 +85,7 @@ class RectangleApp(App):
             for j in range(self.h + 1):
                 edge = self.horizontal_edges[j][i]
                 button = self.draw_edge(
-                    False,
+                    0,
                     edge,
                     i * self.cell_size["x"],
                     j * self.cell_size["y"],
@@ -91,40 +94,29 @@ class RectangleApp(App):
 
         self.buttons_edges = buttons_edges
 
-    def draw_edge(self, is_vertical, edge, x_offset, y_offset):
-        if edge.is_selected():
-            thick = 5
-        else:
-            thick = 1
-        return self.draw_common_edge(is_vertical, edge, x_offset, y_offset, thick)
+    def draw_edge(self, angle, edge, x_offset, y_offset):
+        return self.draw_edge_common(angle, edge, x_offset, y_offset)
 
-    def draw_solution(self, is_vertical, edge, x_offset, y_offset):
+    def draw_solution(self, angle, edge, x_offset, y_offset):
         if edge.should_be_selected():
-            thick = 5
             edge.update()
-        else:
-            thick = 1
-        return self.draw_common_edge(is_vertical, edge, x_offset, y_offset, thick)
+        return self.draw_edge_common(angle, edge, x_offset, y_offset)
 
-    def draw_common_edge(self, is_vertical, edge, x_offset, y_offset, thick):
-        if is_vertical:
-            edge_dim = (thick, self.cell_size["y"] + thick)
-            hitbox_dim = (11, self.cell_size["y"])
-            button_coord = (x_offset - 11 / 2, y_offset)
-        else:
-            edge_dim = (self.cell_size["x"] + thick, thick)
-            hitbox_dim = (self.cell_size["x"], 11)
-            button_coord = (x_offset, y_offset - 11 / 2)
-
-        edge_surface = pygame.Surface(edge_dim)
-        hitbox = pygame.Surface(hitbox_dim).convert_alpha()
-
-        hitbox.fill((255, 255, 255, 0))
-        if edge.status == EdgeStatus.MARKED:
-            edge_surface.fill((225, 225, 225))
-
-        button = self.screen.blit(hitbox, self.add_padding(button_coord))
-        self.screen.blit(
-            edge_surface, self.add_padding((x_offset - thick / 2, y_offset - thick / 2))
+    def draw_edge_common(self, angle, edge, x_offset, y_offset):
+        surface = EdgeSurface(
+            edge=edge,
+            angle=angle,
+            x_offset=x_offset + self.padding[0],
+            y_offset=y_offset + self.padding[1],
+            length=self.cell_size["x"],
         )
-        return button
+        surface.update(self.screen)
+        return surface
+
+
+def blitRotateCenter(surf, image, topleft, angle):
+
+    rotated_image = pygame.transform.rotate(image, angle)
+    new_rect = rotated_image.get_rect(center=image.get_rect(topleft=topleft).center)
+
+    return surf.blit(rotated_image, new_rect)
