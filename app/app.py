@@ -12,8 +12,8 @@ class App(ABC):
         self.padding = (20, 30)
         self.game = game
 
-    def run(self):
-        self.start()
+    def run(self, **kwargs):
+        self.start(**kwargs)
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -37,12 +37,12 @@ class App(ABC):
             self.draw()
             pygame.display.update()
 
-    def start(self):
+    def start(self, font="helvetica", font_size=30):
         pygame.init()
         self.screen = pygame.display.set_mode(
             self.add_padding(self.add_padding(self.window_size))
         )
-        self.font = pygame.font.SysFont("helvetica", 40)
+        self.font = pygame.font.SysFont(font, font_size)
         self.setup_variables()
 
     def add_padding(self, padding: tuple):

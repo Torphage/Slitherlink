@@ -63,7 +63,7 @@ class Game:
         for j in edge.junctions:
             j.update()
 
-    def play(self, dim):
+    def play(self, dim, **kwargs):
         match self.shape.__class__.__name__:
             case "Rectangle":
                 app = RectangleApp(self, dim)
@@ -72,7 +72,7 @@ class Game:
             case _:
                 print("Shape not implemented. Defaulting to rectangle")
                 app = RectangleApp(self, dim)
-        app.run()
+        app.run(**kwargs)
 
     def start(self) -> Game:
         self.setup_variables()
