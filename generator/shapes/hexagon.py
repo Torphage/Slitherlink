@@ -81,19 +81,19 @@ class Hexagon(Generate):
             connected_indices = []
             pos = index + vertical_lines_done - row // 2
             if row % 2 == 0:
-                if row < 2 * size or col != 0:
-                    connected_indices.append(pos + col - add)
-                if row < 2 * size or col != width - 1:
-                    connected_indices.append(pos + col - add + 1)
-                if row != 0:
+                if row != 0:  # up
                     connected_indices.append(pos - width)
+                if row < 2 * size or col != 0:  # down left
+                    connected_indices.append(pos + col - add)
+                if row < 2 * size or col != width - 1:  # down right
+                    connected_indices.append(pos + col - add + 1)
 
             else:
-                if row > 2 * size or col != 0:
+                if row > 2 * size or col != 0:  # up left
                     connected_indices.append(pos + col - add - width)
-                if row > 2 * size or col != width - 1:
+                if row > 2 * size or col != width - 1:  # up right
                     connected_indices.append(pos + col - add - width + 1)
-                if row != 4 * size - 1:
+                if row != 4 * size - 1:  # down
                     connected_indices.append(pos + width - 1)
 
             connected_edges = [edges[k] for k in connected_indices]
