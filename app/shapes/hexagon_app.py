@@ -23,6 +23,10 @@ class HexagonApp(App):
             "x": (self.window_size[0] - self.padding[0]) / (2 * self.size - 1),
             "y": (self.window_size[1] - self.padding[1]) / (2 * self.size - 1),
         }
+        self.offset = {
+            "x": self.cell_size["x"],
+            "y": self.cell_size["y"] * math.sqrt(3) / 2,
+        }
 
     def num_offset(self, text):
         w, h = self.font.size(text)
@@ -38,14 +42,14 @@ class HexagonApp(App):
             for x in range(width):
                 con = self.game.shape.cells[index].constraint
                 if con is not None:
-                    offset = self.num_offset(str(con))
+                    num_offset = self.num_offset(str(con))
                     text = self.font.render(str(con), True, (0, 0, 0))
                     self.screen.blit(
                         text,
                         self.add_padding(
                             (
-                                x * self.cell_size["x"] + offset[0] + left_padding,
-                                y * (self.cell_size["y"] - self.cell_size["y"] * (1 - math.sqrt(3) / 2)) + offset[1] / 2,
+                                x * self.offset["x"] + num_offset[0] + left_padding,
+                                y * self.offset["y"] + num_offset[1],
                             )
                         ),
                     )
@@ -60,31 +64,27 @@ class HexagonApp(App):
         edges = []
 
         index = 0
-        offset = self.font.size("2")
         indexes = []
         for width, y in zip(self.junction_widths, list(range(2 * self.size))):
             left_padding = (self.window_size[0] - width * self.cell_size["x"]) / 2
-
-            # edge_x = (self.window_size[0] - 2 * left_padding) / width / 2
-            # edge_y = (edge_x * 2 / math.sqrt(3)) / 4
 
             for x in range(width):
                 junction = self.game.shape.junctions[index]
                 indexes.append(index)
 
+                x_coord = x * self.offset["x"] + self.padding[0] + left_padding
+                y_coord = y * self.offset["y"] + self.padding[1]
+
                 done = [False, False, False]
-                temp = []
                 for edge in junction.edges:
-                    # if not junction.ident == 11:
-                    #     continue
                     if edge in edges:
                         continue
                     if y != 0 and not done[0]:
                         button = EdgeSurface(
                             edge=edge,
                             angle=90,
-                            x_offset=(x + 0.5) * self.cell_size["x"] + offset[0] + left_padding,
-                            y_offset=(y - 1) * (self.cell_size["y"] - self.cell_size["y"] * (1 - math.sqrt(3) / 2)) + self.cell_size["y"] * math.sqrt(3) / 6,
+                            x_offset=x_coord + self.cell_size["x"] / 2,
+                            y_offset=y_coord - self.cell_size["y"] * math.tan(math.pi / 6),
                             length=self.cell_size["y"] * math.sqrt(3) / 3,
                         )
                         done[0] = True
@@ -92,8 +92,8 @@ class HexagonApp(App):
                         button = EdgeSurface(
                             edge=edge,
                             angle=30,
-                            x_offset=x * self.cell_size["x"] + offset[0] + left_padding,
-                            y_offset=y * (self.cell_size["y"] - self.cell_size["y"] * (1 - math.sqrt(3) / 2)),
+                            x_offset=x_coord,
+                            y_offset=y_coord,
                             length=self.cell_size["y"] * math.sqrt(3) / 3,
                         )
                         done[2] = True
@@ -101,8 +101,8 @@ class HexagonApp(App):
                         button = EdgeSurface(
                             edge=edge,
                             angle=-30,
-                            x_offset=(x + 0.5) * self.cell_size["x"] + offset[0] + left_padding,
-                            y_offset=y * (self.cell_size["y"] - self.cell_size["y"] * (1 - math.sqrt(3) / 2)),
+                            x_offset=x_coord + self.cell_size["x"] / 2,
+                            y_offset=y_coord,
                             length=self.cell_size["y"] * math.sqrt(3) / 3,
                         )
                         done[1] = True
@@ -110,7 +110,6 @@ class HexagonApp(App):
                         continue
                     edges.append(edge)
                     button.update(self.screen)
-                    temp.append((button, edge))
                     buttons_edges.append((button, edge))
 
                 index += 1
