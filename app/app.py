@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import pygame
+from .edge_surface import EdgeSurface
 
 
 class App(ABC):
@@ -20,10 +21,15 @@ class App(ABC):
                     self.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     pos = pygame.mouse.get_pos()
+                    pressed = []
                     for surface, edge in self.buttons_edges:
                         if surface.hitbox_button.collidepoint(pos):
                             if surface.check_collision(pos):
-                                self.game.update(edge)
+                                pressed.append((surface, edge))
+                    if pressed:
+                        (button, edge) = EdgeSurface.get_closest_button(pressed, pos)
+                        self.game.update(edge)
+
             # TODO Fix below
             # * the line below is needed when using draw_solution
             # * since the cells only update around the edge that
