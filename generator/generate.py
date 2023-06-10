@@ -21,7 +21,7 @@ class Generate(ABC):
         cells: list[Cell],
         junctions: list[Junction],
         edges: list[Edge],
-        size: int | tuple[int, int]
+        size: int | tuple[int, int],
     ):
         """_summary_
 
@@ -135,27 +135,6 @@ class Generate(ABC):
 
     def cell_open(self, cell: Cell) -> bool:
         return self.loop[cell] in [LoopStatus.UNKNOWN, LoopStatus.OUT]
-
-    def foo(self, listA: list) -> None:
-        for i, item in enumerate(listA):
-            if (i + 1) % self.w == 0:
-                if item == 8:
-                    print("  ")
-                elif item == 4:
-                    print("▓▓")
-                elif item == 2:
-                    print("--")
-                else:
-                    print("÷÷")
-            else:
-                if item == 8:
-                    print("  ", end="")
-                elif item == 4:
-                    print("▓▓", end="")
-                elif item == 2:
-                    print("--", end="")
-                else:
-                    print("÷÷", end="")
 
 
 def flatten(lst: list[list]) -> list:
