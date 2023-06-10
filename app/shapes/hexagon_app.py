@@ -16,7 +16,7 @@ class HexagonApp(App):
         ]
         self.junction_widths = [
             self.size + s
-            for s in list(range(self.size)) + [a + 1 for a in list(range(self.size))[::-1]]
+            for s in list(range(self.size)) + list(range(1, self.size + 1))[::-1]
         ]
 
         self.cell_size = {
@@ -57,23 +57,43 @@ class HexagonApp(App):
                 index += 1
 
     def draw_junctions(self):
-        return super().draw_junctions()
+        index = 0
+        for width, y in zip(self.junction_widths, list(range(2 * self.size))):
+            left_padding = (self.window_size[0] - width * self.cell_size["x"]) / 2
+
+            for x in range(width):
+                x_coord = x * self.offset["x"] + left_padding
+                y_coord = y * self.offset["y"]
+
+                self.draw_point(
+                    x_coord + self.cell_size["x"] / 2,
+                    y_coord,
+                )
+                self.draw_point(
+                    self.window_size[0] - (x_coord + self.cell_size["x"] / 2),
+                    self.window_size[1]
+                    - (y_coord + self.cell_size["y"] * math.tan(math.pi / 6)),
+                )
+
+                index += 1
+            if y < self.size:
+                index += width + 1
+            else:
+                index += width - 1
 
     def draw_edges(self):
         buttons_edges = []
         edges = []
 
         index = 0
-        indexes = []
         for width, y in zip(self.junction_widths, list(range(2 * self.size))):
             left_padding = (self.window_size[0] - width * self.cell_size["x"]) / 2
 
             for x in range(width):
                 junction = self.game.shape.junctions[index]
-                indexes.append(index)
 
-                x_coord = x * self.offset["x"] + self.padding[0] + left_padding
-                y_coord = y * self.offset["y"] + self.padding[1]
+                x_pos = x * self.offset["x"] + self.padding[0] + left_padding
+                y_pos = y * self.offset["y"] + self.padding[1]
 
                 done = [False, False, False]
                 for edge in junction.edges:
@@ -83,8 +103,9 @@ class HexagonApp(App):
                         button = EdgeSurface(
                             edge=edge,
                             angle=90,
-                            x_offset=x_coord + self.cell_size["x"] / 2,
-                            y_offset=y_coord - self.cell_size["y"] * math.tan(math.pi / 6),
+                            x_offset=x_pos + self.cell_size["x"] / 2,
+                            y_offset=y_pos
+                            - self.cell_size["y"] * math.tan(math.pi / 6),
                             length=self.cell_size["y"] * math.sqrt(3) / 3,
                         )
                         done[0] = True
@@ -92,8 +113,8 @@ class HexagonApp(App):
                         button = EdgeSurface(
                             edge=edge,
                             angle=30,
-                            x_offset=x_coord,
-                            y_offset=y_coord,
+                            x_offset=x_pos,
+                            y_offset=y_pos,
                             length=self.cell_size["y"] * math.sqrt(3) / 3,
                         )
                         done[2] = True
@@ -101,8 +122,8 @@ class HexagonApp(App):
                         button = EdgeSurface(
                             edge=edge,
                             angle=-30,
-                            x_offset=x_coord + self.cell_size["x"] / 2,
-                            y_offset=y_coord,
+                            x_offset=x_pos + self.cell_size["x"] / 2,
+                            y_offset=y_pos,
                             length=self.cell_size["y"] * math.sqrt(3) / 3,
                         )
                         done[1] = True
@@ -121,8 +142,6 @@ class HexagonApp(App):
         self.buttons_edges = buttons_edges
 
         return super().draw_edges()
-
-    # def draw_edge_common()
 
     def draw_solution(self):
         return super().draw_solution()

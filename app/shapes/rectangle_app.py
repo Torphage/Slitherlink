@@ -31,13 +31,6 @@ class RectangleApp(App):
             "y": self.window_size[1] / h,
         }
 
-        # # * modifiable values
-        # self.line_properties = {
-
-        # }
-
-        # self.num_offset = {"x": 17, "y": 4}
-
     def num_offset(self, text):
         w, h = self.font.size(text)
         return (
@@ -63,7 +56,12 @@ class RectangleApp(App):
                     )
 
     def draw_junctions(self):
-        return []
+        for i in range(self.w + 1):
+            for j in range(self.h + 1):
+                self.draw_point(
+                    i * self.cell_size["x"],
+                    j * self.cell_size["y"],
+                )
 
     def draw_edges(self):
         buttons_edges = []
@@ -112,11 +110,3 @@ class RectangleApp(App):
         )
         surface.update(self.screen)
         return surface
-
-
-def blitRotateCenter(surf, image, topleft, angle):
-
-    rotated_image = pygame.transform.rotate(image, angle)
-    new_rect = rotated_image.get_rect(center=image.get_rect(topleft=topleft).center)
-
-    return surf.blit(rotated_image, new_rect)

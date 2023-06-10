@@ -69,6 +69,14 @@ class App(ABC):
         self.draw_junctions()
         self.draw_edges()
 
+    def draw_point(self, x, y):
+        pygame.draw.circle(
+            self.screen,
+            (0, 0, 0),
+            (x + self.padding[0], y + self.padding[1]),
+            7,
+        )
+
     @abstractmethod
     def draw_cells(self):
         return NotImplemented
