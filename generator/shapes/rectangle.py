@@ -1,16 +1,16 @@
 from slitherlink import Cell, Edge, Junction
-from generator.generate import Generate
+from generator.generator import Generator
 from typing import Self
 import random
 import scipy
 import numpy as np
 
 
-class Rectangle(Generate):
-    """A subtype of Generate that generates
+class Rectangle(Generator):
+    """A subtype of Generator that generates
     a rectangle of cells and junctions.
 
-    :param Generate: The parent class
+    :param Generator: The parent class
     """
 
     def __init__(

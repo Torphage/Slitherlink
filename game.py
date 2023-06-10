@@ -1,14 +1,14 @@
 from __future__ import annotations
 from generator.shapes import Rectangle, Hexagon
-from generator.generate import Generate
+from generator.generator import Generator
 from app.shapes import RectangleApp, HexagonApp
 import time
 
 
 class Game:
-    shape: Generate
+    shape: Generator
 
-    def __init__(self, shape: Generate, size: int | tuple[int, int]):
+    def __init__(self, shape: Generator, size: int | tuple[int, int]):
         self.shape = shape
         self.size = size
 

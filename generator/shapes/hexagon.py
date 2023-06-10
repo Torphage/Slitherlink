@@ -1,12 +1,12 @@
 from slitherlink import Cell, Edge, Junction
 from typing import Self
-from generator.generate import Generate
+from generator.generator import Generator
 import random
 import scipy
 import numpy as np
 
 
-class Hexagon(Generate):
+class Hexagon(Generator):
     def __init__(
         self, cells: list[Cell], junctions: list[Junction], edges: list[Edge], size: int
     ):

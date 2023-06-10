@@ -4,7 +4,7 @@ from shared.enums import LoopStatus
 from abc import ABC, abstractmethod
 
 
-class Generate(ABC):
+class Generator(ABC):
     """
     An abstract class for generating slitherlink puzzles
     """
