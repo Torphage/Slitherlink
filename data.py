@@ -1,4 +1,4 @@
-from slitherlink import Junction, Cell
+from shared.slitherlink import Junction, Cell
 
 
 # fmt: off

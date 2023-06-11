@@ -1,4 +1,4 @@
-from slitherlink import Cell, Junction, Edge
+from shared.slitherlink import Cell, Junction, Edge
 import random
 from shared.enums import LoopStatus
 from abc import ABC, abstractmethod

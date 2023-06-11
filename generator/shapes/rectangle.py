@@ -1,4 +1,4 @@
-from slitherlink import Cell, Edge, Junction
+from shared.slitherlink import Cell, Edge, Junction
 from generator.generator import Generator
 from typing import Self
 import random

@@ -2,7 +2,7 @@ from shared.enums import EdgeStatus
 import pygame
 import math
 from operator import add
-from slitherlink import Edge
+from shared.slitherlink import Edge
 
 
 class EdgeSurface:
