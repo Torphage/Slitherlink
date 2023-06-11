@@ -28,42 +28,40 @@ class App(ABC):
                             if surface.check_collision(pos):
                                 pressed.append((surface, edge))
                     if pressed:
-                        (button, edge) = EdgeSurface.get_closest_button(pressed, pos)
+                        edge = EdgeSurface.get_closest_button(pressed, pos)
                         self.game.update(edge)
 
-            # TODO Fix below
+            # TODO Fix showing solved game
             # * the line below is needed when using draw_solution
             # * since the cells only update around the edge that
             # * you actually click.
-            # self.game.base_update()
             if self.game.solved():
                 print("You won!")
                 self.running = False
 
-            self.screen.fill((255, 255, 255))
+            self.screen.fill((200, 200, 200))
             self.draw()
             pygame.display.update()
 
-    def start(self, font="helvetica", font_size=30):
+    def start(self, font="helvetica", font_size=30, **kwargs):
         pygame.init()
         self.screen = pygame.display.set_mode(
             self.add_padding(self.add_padding(self.window_size))
         )
         self.font = pygame.font.SysFont(font, font_size)
-        self.setup_variables()
+        self.setup_variables(**kwargs)
 
     def add_padding(self, padding: tuple):
         return (padding[0] + self.padding[0], padding[1] + self.padding[1])
 
-    @abstractmethod
-    def setup_variables(self):
+    def setup_variables(self, stretch=False):
         """Define useful instance variables here that are unique to the shape.
         These can then later be used by the shape in other functions.
 
-        This function is called once, so if you need to update the value of these variables,
-        do so outside this functions
+        This function is called once, so if you need to update the value of
+        these variables, do so outside this functions
         """
-        return NotImplemented
+        self.stretch = stretch
 
     def draw(self):
         self.draw_cells()

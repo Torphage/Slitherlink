@@ -8,7 +8,8 @@ class RectangleApp(App):
     def __init__(self, game, window_size):
         super().__init__(game, window_size)
 
-    def setup_variables(self):
+    def setup_variables(self, **kwargs):
+        super().setup_variables(**kwargs)
         w, h = self.w, self.h = self.size[0], self.size[1]
 
         cell_grid = [
@@ -74,6 +75,7 @@ class RectangleApp(App):
                     edge,
                     i * self.cell_size["x"],
                     j * self.cell_size["y"],
+                    self.cell_size["y"],
                 )
                 buttons_edges.append((button, edge))
 
@@ -86,26 +88,27 @@ class RectangleApp(App):
                     edge,
                     i * self.cell_size["x"],
                     j * self.cell_size["y"],
+                    self.cell_size["x"],
                 )
                 buttons_edges.append((button, edge))
 
         self.buttons_edges = buttons_edges
 
-    def draw_edge(self, angle, edge, x_offset, y_offset):
-        return self.draw_edge_common(angle, edge, x_offset, y_offset)
+    def draw_edge(self, angle, edge, x_offset, y_offset, length):
+        return self.draw_edge_common(angle, edge, x_offset, y_offset, length)
 
-    def draw_solution(self, angle, edge, x_offset, y_offset):
+    def draw_solution(self, angle, edge, x_offset, y_offset, length):
         if edge.should_be_selected():
             edge.update()
-        return self.draw_edge_common(angle, edge, x_offset, y_offset)
+        return self.draw_edge_common(angle, edge, x_offset, y_offset, length)
 
-    def draw_edge_common(self, angle, edge, x_offset, y_offset):
+    def draw_edge_common(self, angle, edge, x_offset, y_offset, length):
         surface = EdgeSurface(
             edge=edge,
             angle=angle,
             x_offset=x_offset + self.padding[0],
             y_offset=y_offset + self.padding[1],
-            length=self.cell_size["x"],
+            length=length,
         )
         surface.update(self.screen)
         return surface

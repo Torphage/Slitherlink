@@ -16,7 +16,7 @@ class EdgeSurface:
         angle: float,
         x_offset: int,
         y_offset: int,
-        length: int,
+        length: float,
     ):
         self.edge = edge
         self.angle = angle
@@ -102,7 +102,7 @@ class EdgeSurface:
     @staticmethod
     def get_closest_button(pressed: list, pos: tuple[int, int]):
         if len(pressed) == 1:
-            return pressed[0]
+            return pressed[0][1]
 
         distances = []
         for surface, edge in pressed:
@@ -111,7 +111,7 @@ class EdgeSurface:
                 math.sqrt((pos[0] - surface_pos[0]) ** 2 + (pos[1] - surface_pos[1]) ** 2),
             )
         min_index = distances.index(min(distances))
-        return pressed[min_index]
+        return pressed[min_index][1]
 
 
 def sign(x):
