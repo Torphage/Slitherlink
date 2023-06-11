@@ -1,9 +1,10 @@
+import numpy as np
+import random
+from typing import Self
+from scipy import stats  # type: ignore
+
 from shared.slitherlink import Cell, Edge, Junction
 from generator.generator import Generator
-from typing import Self
-import random
-import scipy
-import numpy as np
 
 
 class Rectangle(Generator):
@@ -33,8 +34,8 @@ class Rectangle(Generator):
         self.h = h
 
     def pick_first_cell(self) -> Cell:
-        xs = scipy.stats.norm.pdf(np.linspace(-3, 3, self.w))
-        ys = scipy.stats.norm.pdf(np.linspace(-3, 3, self.h))
+        xs = stats.norm.pdf(np.linspace(-3, 3, self.w))  # type: ignore
+        ys = stats.norm.pdf(np.linspace(-3, 3, self.h))  # type: ignore
         probabilities = [y * x for y in ys for x in xs]
         return random.choices(self.cells, weights=probabilities, k=1)[0]
 

@@ -1,9 +1,10 @@
-from shared.slitherlink import Cell, Edge, Junction
-from typing import Self
-from generator.generator import Generator
-import random
-import scipy
 import numpy as np
+import random
+from typing import Self
+from scipy import stats  # type: ignore
+
+from shared.slitherlink import Cell, Edge, Junction
+from generator.generator import Generator
 
 
 class Hexagon(Generator):

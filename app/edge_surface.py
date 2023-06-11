@@ -1,7 +1,8 @@
-from shared.enums import EdgeStatus
-import pygame
 import math
 from operator import add
+import pygame
+
+from shared.enums import EdgeStatus
 from shared.slitherlink import Edge
 
 

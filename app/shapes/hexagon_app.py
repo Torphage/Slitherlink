@@ -1,6 +1,7 @@
+import math
+
 from app.app import App
 from app.edge_surface import EdgeSurface
-import math
 
 
 class HexagonApp(App):

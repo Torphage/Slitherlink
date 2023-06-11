@@ -1,8 +1,9 @@
 from __future__ import annotations
+import time
+
+from app.shapes import RectangleApp, HexagonApp
 from generator.shapes import Rectangle, Hexagon
 from generator.generator import Generator
-from app.shapes import RectangleApp, HexagonApp
-import time
 
 
 class Game:

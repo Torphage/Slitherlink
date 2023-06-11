@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import pygame
-from .edge_surface import EdgeSurface
+
+from app.edge_surface import EdgeSurface
 
 
 class App(ABC):
