@@ -45,7 +45,7 @@ class RectangleApp(App):
                 if con is not None:
                     offset = self.num_offset(str(con))
                     text = self.font.render(str(con), True, (0, 0, 0))
-                    self.screen.blit(
+                    self.surface.blit(
                         text,
                         self.add_padding(
                             (
@@ -110,5 +110,5 @@ class RectangleApp(App):
             y_offset=y_offset + self.padding[1],
             length=length,
         )
-        surface.update(self.screen)
+        surface.update(self.surface)
         return surface
