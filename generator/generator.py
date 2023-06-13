@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+import numpy as np
 import random
+from scipy import stats  # type: ignore
 
 from shared.slitherlink import Cell, Junction, Edge
 from shared.enums import LoopStatus
@@ -38,10 +40,14 @@ class Generator(ABC):
         self.edges = edges
         self.available = []
         self.loop = {k: LoopStatus.UNKNOWN for k in dict.fromkeys(cells)}
+        self.solution = {k: LoopStatus.UNKNOWN for k in dict.fromkeys(cells)}
 
     @abstractmethod
     def pick_first_cell(self) -> Cell:
         return random.choice(self.cells)
+
+    def probability_line(self, width: int) -> list[float]:
+        return stats.norm.pdf(np.linspace(-3, 3, width))
 
     @abstractmethod
     def print_ascii(self):
@@ -55,7 +61,7 @@ class Generator(ABC):
     def generate(cls, size: int | tuple[int, int]):
         return NotImplemented
 
-    def gen_loop(self) -> dict[Cell, LoopStatus]:
+    def gen_loop(self):
         self.available.append(self.pick_first_cell())
 
         while len(self.available) > 0:
@@ -73,7 +79,8 @@ class Generator(ABC):
         for keys in self.loop.keys():
             if self.loop[keys] == LoopStatus.UNKNOWN:
                 self.loop[keys] = LoopStatus.OUT
-        return self.loop
+
+        self.solution = self.loop.copy()
 
     def add_cell(self, cell: Cell) -> Cell:
         # can loop expand from current cell?

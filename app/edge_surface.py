@@ -14,14 +14,17 @@ class EdgeSurface:
         self,
         edge: Edge,
         angle: float,
-        x_offset: int,
-        y_offset: int,
+        x_offset: float,
+        y_offset: float,
         length: float,
+        padding: tuple[int, int] = (0, 0),
+        ratio: float = 1,
     ):
         self.edge = edge
         self.angle = angle
-        self.x_offset = x_offset
-        self.y_offset = y_offset
+        self.x_offset = x_offset + padding[0]
+        self.y_offset = y_offset + padding[1]
+        self.ratio = ratio
 
         pass
         self.pre_update()
@@ -40,13 +43,13 @@ class EdgeSurface:
         match self.edge.status:
             case EdgeStatus.MARKED:
                 self.color = (0, 0, 0, 15)
-                self.thick = 2
+                self.thick = self.ratio
             case EdgeStatus.EMPTY:
                 self.color = (0, 0, 0, 160)
-                self.thick = 2
+                self.thick = self.ratio
             case EdgeStatus.SELECTED:
                 self.color = (0, 0, 0)
-                self.thick = 6
+                self.thick = 2 + 2 * self.ratio
         self.hitbox_thick = 17
 
     def update(

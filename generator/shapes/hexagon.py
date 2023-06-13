@@ -1,20 +1,24 @@
-import numpy as np
 import random
 from typing import Self
-from scipy import stats  # type: ignore
 
 from shared.slitherlink import Cell, Edge, Junction
 from generator.generator import Generator
 
 
 class Hexagon(Generator):
+    size: int
+
     def __init__(
         self, cells: list[Cell], junctions: list[Junction], edges: list[Edge], size: int
     ):
         super().__init__(cells, junctions, edges, size)
 
     def pick_first_cell(self) -> Cell:
-        return super().pick_first_cell()
+        cell_widths = list(range(self.size)) + list(range(self.size - 1))[::-1]
+        xss = [self.probability_line(self.size + width) for width in cell_widths]
+        ys = self.probability_line(2 * self.size - 1)
+        probabilities = [ys[i] * x for i, xs in enumerate(xss) for x in xs]
+        return random.choices(self.cells, weights=probabilities, k=1)[0]
 
     def print_ascii(self):
         return super().print_ascii()
