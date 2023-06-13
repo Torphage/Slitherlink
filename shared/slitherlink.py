@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import TypedDict
+
 from shared.enums import EdgeStatus, ConstraintStatus, LoopStatus
 
 
@@ -14,25 +15,20 @@ class Edge:
     status: EdgeStatus
     cells: list[Cell]
     junctions: list[Junction]
-    neighbours: list[Edge]
 
     def __init__(self, ident):
         self.ident = ident
         self.status = EdgeStatus.EMPTY
         self.cells = []
         self.junctions = []
-        self.neighbours = []
 
-    def setup_variables(self, cells, junctions, edges):
+    def setup_variables(self, cells, junctions):
         for cell in cells:
             if self in cell.edges:
                 self.cells.append(cell)
         for junction in junctions:
             if self in junction.edges:
                 self.junctions.append(junction)
-        for edge in edges:
-            if self.are_neighbour(edge):
-                self.neighbours.append(edge)
 
     def update(self):
         self.iterate_status()
@@ -50,21 +46,6 @@ class Edge:
 
     def are_neighbour(self, other: Edge) -> bool:
         return Edge.are_neighbours(self, other)
-
-    @staticmethod
-    def sort(edges: list[Edge]) -> list[Edge]:
-        res = edges[:1]
-        temp = edges[1:]
-        i = 0
-        while len(temp) > 0:
-            if res[-1] in temp[i].neighbours:
-                res.append(temp[i])
-                temp.remove(temp[i])
-                i = 0
-            else:
-                i += 1
-
-        return res
 
     @staticmethod
     def are_neighbours(e1: Edge, e2: Edge) -> bool:

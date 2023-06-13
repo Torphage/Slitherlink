@@ -40,12 +40,8 @@ class Game:
     def setup_variables(self):
         t = time.perf_counter()
         for edge in self.shape.edges:
-            edge.setup_variables(
-                self.shape.cells, self.shape.junctions, self.shape.edges
-            )
-        print(
-            f"Edges took the following amount to setup {round(time.perf_counter() - t,3)}s"
-        )
+            edge.setup_variables(self.shape.cells, self.shape.junctions)
+        print(f"The setup of non-edges took {round(time.perf_counter() - t,3)}s")
         for cell in self.shape.cells:
             cell.setup_variables()
         for junction in self.shape.junctions:
