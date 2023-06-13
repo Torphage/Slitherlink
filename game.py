@@ -35,7 +35,7 @@ class Game:
     def valid_junctions(self) -> bool:
         return all([j.is_valid() for j in self.shape.junctions])
 
-    # Update the grid
+    # Setup the grid
 
     def setup_variables(self):
         t = time.perf_counter()
@@ -46,6 +46,8 @@ class Game:
             cell.setup_variables()
         for junction in self.shape.junctions:
             junction.setup_variables()
+
+    # Update the grid
 
     def base_update(self):
         for c in self.shape.cells:
@@ -76,7 +78,9 @@ class Game:
         return self
 
     @staticmethod
-    def generate_random_shape(shape: str, size1: int = 0, size2: tuple[int, int] = (0, 0)) -> Game:
+    def generate_random_shape(
+        shape: str, size1: int = 0, size2: tuple[int, int] = (0, 0)
+    ) -> Game:
         match shape:
             case "square":
                 size = size2
