@@ -1,5 +1,9 @@
+import pygame
+import time
+
 from app.app import App
 from app.edge_surface import EdgeSurface
+from shared.slitherlink import Edge
 
 
 class RectangleApp(App):
@@ -8,8 +12,7 @@ class RectangleApp(App):
     def __init__(self, game, window_size):
         super().__init__(game, window_size)
 
-    def setup_variables(self, **kwargs):
-        super().setup_variables(**kwargs)
+    def setup_variables(self):
         w, h = self.w, self.h = self.size[0], self.size[1]
 
         cell_grid = [
@@ -17,8 +20,8 @@ class RectangleApp(App):
         ]
         self.cell_grid = list(map(list, zip(*cell_grid)))
 
-        horizontal_edges = self.shape.edges[: w * (h + 1)]
-        vertical_edges = self.shape.edges[w * (h + 1) :]
+        horizontal_edges = self.shape.edges_arr[: w * (h + 1)]
+        vertical_edges = self.shape.edges_arr[w * (h + 1) :]
         self.horizontal_edges = [
             horizontal_edges[i : i + h] for i in range(0, len(horizontal_edges), w)
         ]
@@ -45,15 +48,16 @@ class RectangleApp(App):
                 if con is not None:
                     offset = self.num_offset(str(con))
                     text = self.font.render(str(con), True, (0, 0, 0))
-                    self.surface.blit(
-                        text,
+                    rect = pygame.Rect(
                         self.add_padding(
                             (
                                 i * self.cell_size["x"] + offset[0],
                                 j * self.cell_size["y"] + offset[1],
                             )
                         ),
+                        text.get_size(),
                     )
+                    self.render(text, rect)
 
     def draw_junctions(self):
         for i in range(self.w + 1):
@@ -64,6 +68,19 @@ class RectangleApp(App):
                 )
 
     def draw_edges(self):
+        if self.buttons_edges and self.pressed_button:
+            self.pressed_button.update(edge=self.pressed_button.edge)
+
+            for button, _ in self.buttons_edges:
+                self.render(button.visual, button.visual_rect)
+            self.pressed_button = None
+            return
+
+        if self.buttons_edges and not self.do_zoom:
+            for button, _ in self.buttons_edges:
+                self.render(button.visual, button.visual_rect)
+            return
+
         buttons_edges = []
 
         # vertical edges
@@ -110,5 +127,7 @@ class RectangleApp(App):
             y_offset=y_offset + self.padding[1],
             length=length,
         )
-        surface.update(self.surface)
+        (v, vr) = surface.update()
+        self.render(v, vr)
+
         return surface

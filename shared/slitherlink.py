@@ -1,34 +1,27 @@
 from __future__ import annotations
-from typing import TypedDict
 
 from shared.enums import EdgeStatus, ConstraintStatus, LoopStatus
-
-
-class Data(TypedDict):
-    edges: list[Edge]
-    cells: list[Cell]
-    junctions: list[Junction]
 
 
 class Edge:
     ident: int
     status: EdgeStatus
-    cells: list[Cell]
-    junctions: list[Junction]
+    cells: set[Cell]
+    junctions: set[Junction]
 
     def __init__(self, ident):
         self.ident = ident
         self.status = EdgeStatus.EMPTY
-        self.cells = []
-        self.junctions = []
+        self.cells = set()
+        self.junctions = set()
 
     def setup_variables(self, cells, junctions):
         for cell in cells:
             if self in cell.edges:
-                self.cells.append(cell)
+                self.cells.add(cell)
         for junction in junctions:
             if self in junction.edges:
-                self.junctions.append(junction)
+                self.junctions.add(junction)
 
     def update(self):
         self.iterate_status()
@@ -40,9 +33,10 @@ class Edge:
         return self.status == EdgeStatus.SELECTED
 
     def should_be_selected(self):
-        if len(self.cells) == 1:
-            return self.cells[0].loop_status == LoopStatus.NOEXP
-        return self.cells[0].loop_status != self.cells[1].loop_status
+        arr = [c.loop_status for c in self.cells]
+        if len(arr) == 1:
+            return arr[0] == LoopStatus.NOEXP
+        return arr[0] != arr[1]
 
     def are_neighbour(self, other: Edge) -> bool:
         return Edge.are_neighbours(self, other)
@@ -61,18 +55,20 @@ class Edge:
 
 class Cell:
     ident: int
-    neighbours: list[Cell]
-    junctions: list[Junction]
-    edges: list[Edge]
+    neighbours: set[Cell]
+    junctions: set[Junction]
+    edges: set[Edge]
+    sides: int
     constraint: int | None
     status: ConstraintStatus | None
     loop_status: LoopStatus
 
-    def __init__(self, edges, ident):
+    def __init__(self, edges, ident, sides):
         self.ident = ident
-        self.neighbours = []
-        self.junctions = []
+        self.neighbours = set()
+        self.junctions = set()
         self.edges = edges
+        self.sides = sides
         self.constraint = None
         self.loop_status = LoopStatus.UNKNOWN
 
@@ -81,11 +77,11 @@ class Cell:
             for cell in edge.cells:
                 if cell is self:
                     continue
-                self.neighbours.append(cell)
+                self.neighbours.add(cell)
                 break
 
             for junction in edge.junctions:
-                self.junctions.append(junction)
+                self.junctions.add(junction)
 
     def num_selected_edges_at_cell(self) -> int:
         return sum([1 for e in self.edges if e.is_selected()])
@@ -133,14 +129,15 @@ class Cell:
                         res.append(c)
         return res
 
-    def get_neighbours(self, cells: list[Cell]) -> list[Cell]:
+    def get_neighbours(self) -> list[Cell]:
         res = []
         for edge in self.edges:
-            for cell in cells:
-                if cell is self:
-                    continue
-                if edge in cell.edges:
-                    res.append(cell)
+            res.extend(edge.cells - {self})
+            # for cell in cells:
+            #     if cell is self:
+            #         continue
+            #     if edge in cell.edges:
+            #         res.append(cell)
         return res
 
     def print_edge(self):
@@ -148,20 +145,20 @@ class Cell:
 
 
 class Junction:
-    edges: list[Edge]
-    cells: list[Cell]
+    edges: set[Edge]
+    cells: set[Cell]
     ident: int
 
     def __init__(self, edges, ident):
         self.edges = edges
         self.ident = ident
-        self.cells = []
+        self.cells = set()
 
     def setup_variables(self):
         for edge in self.edges:
             for cell in edge.cells:
                 if cell not in self.cells:
-                    self.cells.append(cell)
+                    self.cells.add(cell)
 
     def get_surrounding_cells(self) -> list[Cell]:
         """Get the surrounding cells in traversable order.

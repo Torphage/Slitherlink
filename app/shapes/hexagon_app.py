@@ -1,4 +1,5 @@
 import math
+import pygame
 
 from app.app import App
 from app.edge_surface import EdgeSurface
@@ -9,9 +10,10 @@ class HexagonApp(App):
 
     def __init__(self, game, window_size):
         super().__init__(game, window_size)
+        self.cell_draws = []
+        self.junction_draws = []
 
-    def setup_variables(self, **kwargs):
-        super().setup_variables(**kwargs)
+    def setup_variables(self):
         self.cell_counts = [
             self.size + s
             for s in list(range(self.size)) + list(range(self.size - 1))[::-1]
@@ -70,6 +72,13 @@ class HexagonApp(App):
         )
 
     def draw_cells(self):
+        if self.cell_draws and not self.do_zoom:
+            for s, r in self.cell_draws:
+                # if self.within_bounds(s, r):
+                self.render(s, r)
+            return
+
+        self.cell_draws = []
         index = 0
         for width, y in zip(self.cell_counts, range(2 * self.size - 1)):
             left_padding = (self.window_size[0] - width * self.cell_width) / 2
@@ -81,17 +90,29 @@ class HexagonApp(App):
 
                 num_offset = self.num_offset(str(con))
                 text = self.font.render(str(con), True, (0, 0, 0))
-                self.surface.blit(
-                    text,
-                    self.add_padding(
-                        (
-                            x * self.offset["x"] + num_offset[0] + left_padding,
-                            y * self.offset["y"] + num_offset[1] + self.upper_padding,
-                        )
-                    ),
+                (l, r) = self.add_padding(
+                    (
+                        x * self.offset["x"] + num_offset[0] + left_padding,
+                        y * self.offset["y"] + num_offset[1] + self.upper_padding,
+                    )
                 )
+                rect = pygame.Rect(
+                    l,
+                    r,
+                    text.get_width(),
+                    text.get_height(),
+                )
+                self.render(text, rect)
+
+                self.cell_draws.append((text, rect))
 
     def draw_junctions(self):
+        if self.junction_draws and not self.do_zoom:
+            for s, r in self.junction_draws:
+                self.render(s, r)
+            return
+
+        self.junction_draws = []
         for width, y in zip(self.junction_counts, list(range(2 * self.size))):
             left_padding = (self.window_size[0] - width * self.cell_width) / 2
 
@@ -104,31 +125,31 @@ class HexagonApp(App):
                     "y"
                 ] + self.upper_padding
 
-                self.draw_point(
+                (s0, rect0) = self.draw_point(
                     x_coord + self.cell_width / 2,
                     y_coord,
                 )
 
-                self.draw_point(
+                (s1, rect1) = self.draw_point(
                     x2_coord - self.cell_width / 2, y2_coord + self.angled_height
                 )
 
-                # if y != 0:
-                #     self.draw_point(
-                #         x_coord + self.cell_width / 2,
-                #         y_coord - self.edge_length,
-                #     )
-                # if x != 0 and y == 2 * self.size - 1:
-                #     self.draw_point(
-                #         x_coord,
-                #         y_coord + self.angled_height,
-                #     )
+                self.junction_draws += [(s0, rect0), (s1, rect1)]
 
     def draw_edges(self):
-        # if self.buttons_edges:
-        #     for button, _ in self.buttons_edges:
-        #         button.draw(self.surface)
-        #     return self.buttons_edges
+        if self.buttons_edges and self.pressed_button:
+            self.pressed_button.update(edge=self.pressed_button.edge)
+
+            for button, _ in self.buttons_edges:
+                self.render(button.visual, button.visual_rect)
+            self.pressed_button = None
+            return
+
+        if self.buttons_edges and not self.do_zoom:
+            for button, _ in self.buttons_edges:
+                self.render(button.visual, button.visual_rect)
+            return
+
         buttons_edges = []
         edges = []
 
@@ -147,13 +168,18 @@ class HexagonApp(App):
                 x_pos = x * self.offset["x"] + left_padding
                 y_pos = y * self.offset["y"] + self.upper_padding
 
-                done = [False, False, False]
-                for edge in junction.edges:
-                    if edge in edges:
-                        continue
-                    if y != 0 and not done[0]:
-                        button = EdgeSurface(
-                            edge=edge,
+                # done = [False, False, False]
+                # for edge in junction.edges:
+                #     if edge in edges:
+                #         continue
+                selected_edges = [edge for edge in junction.edges if edge not in edges]
+                edge_index = 0
+                buttons = []
+
+                if y != 0:
+                    buttons.append(
+                        EdgeSurface(
+                            edge=selected_edges[edge_index],
                             angle=90,
                             x_offset=x_pos + self.cell_width / 2,
                             y_offset=y_pos - self.edge_length,
@@ -161,10 +187,13 @@ class HexagonApp(App):
                             padding=self.padding,
                             ratio=self.ratio,
                         )
-                        done[0] = True
-                    elif (y < self.size or x != 0) and not done[1]:
-                        button = EdgeSurface(
-                            edge=edge,
+                    )
+                    edge_index += 1
+
+                if y < self.size or x != 0:
+                    buttons.append(
+                        EdgeSurface(
+                            edge=selected_edges[edge_index],
                             angle=self.angle,
                             x_offset=x_pos,
                             y_offset=y_pos + opposite,
@@ -172,10 +201,13 @@ class HexagonApp(App):
                             padding=self.padding,
                             ratio=self.ratio,
                         )
-                        done[1] = True
-                    elif (y < self.size or x != width - 1) and not done[2]:
-                        button = EdgeSurface(
-                            edge=edge,
+                    )
+                    edge_index += 1
+
+                if y < self.size or x != width - 1:
+                    buttons.append(
+                        EdgeSurface(
+                            edge=selected_edges[edge_index],
                             angle=-self.angle,
                             x_offset=x_pos + self.cell_width / 2,
                             y_offset=y_pos + opposite,
@@ -183,12 +215,16 @@ class HexagonApp(App):
                             padding=self.padding,
                             ratio=self.ratio,
                         )
-                        done[2] = True
-                    else:
-                        raise Exception("Invalid edge found")
-                    edges.append(edge)
-                    button.update(self.surface)
-                    buttons_edges.append((button, edge))
+                    )
+
+                edges.extend(selected_edges)
+
+                for button in buttons:
+                    (v, vr) = button.update()
+
+                    self.render(v, vr)
+
+                    buttons_edges.append(button)
 
                 index += 1
             if y < self.size:
