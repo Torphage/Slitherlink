@@ -3,7 +3,6 @@ import math
 import pygame
 
 from app.edge_surface import EdgeSurface
-from shared.slitherlink import Edge
 
 
 class App(ABC):
