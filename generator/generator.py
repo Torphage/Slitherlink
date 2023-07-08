@@ -15,7 +15,7 @@ class Generator(ABC):
     size: int | tuple[int, int]
     cells: list[Cell]
     junctions: list[Junction]
-    edges: list[Edge]
+    edges: set[Edge]
     available: list[Cell]
     loop: dict[Cell, LoopStatus]
 
@@ -23,7 +23,7 @@ class Generator(ABC):
         self,
         cells: list[Cell],
         junctions: list[Junction],
-        edges: list[Edge],
+        edges: set[Edge],
         size: int | tuple[int, int],
     ):
         """_summary_
@@ -35,16 +35,17 @@ class Generator(ABC):
         """
 
         self.size = size
-        self.cells = cells[:]
+        self.cells = cells
         self.junctions = junctions
         self.edges = edges
+        self.edges_arr = list(edges)
         self.available = []
         self.loop = {k: LoopStatus.UNKNOWN for k in dict.fromkeys(cells)}
         self.solution = {k: LoopStatus.UNKNOWN for k in dict.fromkeys(cells)}
 
     @abstractmethod
     def pick_first_cell(self) -> Cell:
-        return random.choice(self.cells)
+        return random.choice(list(self.cells))
 
     def probability_line(self, width: int) -> list[float]:
         return stats.norm.pdf(np.linspace(-3, 3, width))
@@ -114,10 +115,10 @@ class Generator(ABC):
         return True
 
     def pick_direction(self, cell: Cell) -> Cell:
-        return random.choice(cell.get_neighbours(self.cells))
+        return random.choice(cell.get_neighbours())
 
     def get_adjacent(self, cell: Cell) -> list[bool]:
-        neighbours = cell.get_neighbours(self.cells)
+        neighbours = cell.get_neighbours()
         return [self.valid_cell(n, cell) for n in neighbours]
 
     def add_available(self, cell: Cell) -> None:

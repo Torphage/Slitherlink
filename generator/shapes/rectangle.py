@@ -16,7 +16,7 @@ class Rectangle(Generator):
         self,
         cells: list[Cell],
         junctions: list[Junction],
-        edges: list[Edge],
+        edges: set[Edge],
         w: int,
         h: int,
     ):
@@ -71,7 +71,7 @@ class Rectangle(Generator):
     def generate(cls, size: tuple[int, int]) -> Self:
         w, h = size
         length = w * h + w
-        edges = [Edge(i) for i in range(2 * length + h)]
+        edges = [Edge(i) for i in range(2 * w * h + w + h)]
 
         cells = []
         for j in range(h):
@@ -84,7 +84,7 @@ class Rectangle(Generator):
                     length + index + j,  # left
                 ]
                 connected_edges = [edges[k] for k in connected_indices]
-                cells.append(Cell(connected_edges, index))
+                cells.append(Cell(connected_edges, index, 4))
 
         junctions = []
         for j in range(h + 1):
@@ -103,4 +103,4 @@ class Rectangle(Generator):
                 connected_edges = [edges[k] for k in connected_indices]
                 junctions.append(Junction(connected_edges, index))
 
-        return Rectangle(cells, junctions, edges, w, h)
+        return Rectangle(cells, junctions, {e for e in edges}, w, h)

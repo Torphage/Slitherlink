@@ -9,7 +9,7 @@ class Hexagon(Generator):
     size: int
 
     def __init__(
-        self, cells: list[Cell], junctions: list[Junction], edges: list[Edge], size: int
+        self, cells: list[Cell], junctions: list[Junction], edges: set[Edge], size: int
     ):
         super().__init__(cells, junctions, edges, size)
 
@@ -18,7 +18,7 @@ class Hexagon(Generator):
         xss = [self.probability_line(self.size + width) for width in cell_widths]
         ys = self.probability_line(2 * self.size - 1)
         probabilities = [ys[i] * x for i, xs in enumerate(xss) for x in xs]
-        return random.choices(self.cells, weights=probabilities, k=1)[0]
+        return random.choices(list(self.cells), weights=probabilities, k=1)[0]
 
     def print_ascii(self):
         return super().print_ascii()
@@ -45,27 +45,27 @@ class Hexagon(Generator):
             connected_indices = [
                 2 * index + offset,  # up left
                 2 * index + offset + 1,  # up right
-                2 * width + index + vertical_lines_done + offset,  # left
                 2 * width + index + vertical_lines_done + offset + 1,  # right
-                3 * width + 1 + 2 * index + offset,  # down left
                 3 * width + 1 + 2 * index + offset + 1,  # down right
+                3 * width + 1 + 2 * index + offset,  # down left
+                2 * width + index + vertical_lines_done + offset,  # left
             ]
 
             # Above the middle row
             if row < size - 1:
+                connected_indices[3] += 1
                 connected_indices[4] += 1
-                connected_indices[5] += 1
             # Below the middle row
             elif row > size - 1:
-                connected_indices[0] += 4 * (row - size + 1) - 1
-                connected_indices[1] += 4 * (row - size + 1) - 1
-                connected_indices[2] += 6 * (row - size + 1)
-                connected_indices[3] += 6 * (row - size + 1)
-                connected_indices[4] += 4 * (row - size + 1)
-                connected_indices[5] += 4 * (row - size + 1)
+                connected_indices[0] += 4 * (row - size + 1) - 1  # up left
+                connected_indices[1] += 4 * (row - size + 1) - 1  # up right
+                connected_indices[2] += 6 * (row - size + 1)  # right
+                connected_indices[3] += 4 * (row - size + 1)  # down right
+                connected_indices[4] += 4 * (row - size + 1)  # down left
+                connected_indices[5] += 6 * (row - size + 1)  # left
 
             connected_edges = [edges[k] for k in connected_indices]
-            cells.append(Cell(connected_edges, index))
+            cells.append(Cell(connected_edges, index, 6))
 
         offset = 0
         last_row = 0
@@ -104,7 +104,7 @@ class Hexagon(Generator):
             connected_edges = [edges[k] for k in connected_indices]
             junctions.append(Junction(connected_edges, index))
 
-        return Hexagon(cells, junctions, edges, size)
+        return Hexagon(cells, junctions, {e for e in edges}, size)
 
 
 def get_rows(size: int) -> list[tuple[int, int]]:
